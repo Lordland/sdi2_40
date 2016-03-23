@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>Piloto de SDI</title>
+</h:head>
+<h:body>
+	<h:form>
+		<p:menubar>
+			<p:menuitem value="ShareMyTrip">
+			</p:menuitem>
+			<p:submenu label="Gestión de usuarios">
+				<p:menuitem value="Cerrar sesión" action="cerrar"
+					actionListener="#{usuarios.cerrarSesion}" ajax = "false">
+				</p:menuitem>
+			</p:submenu>
+			<p:menuitem value="Volver a principal" action = "principal">
+			</p:menuitem>
+		</p:menubar>
+	</h:form>
+	<center>
+		<h1>ShareMyTrip</h1>
+		<br />
+		<h2>Modificar datos de usuario</h2>
+	</center>
+	<br />
+	<br />
+<br />
+	<h:form>
+		<p:panelGrid columns="2" styleClass="formTable">
+  NOMBRE: 
+  <p:inputText value="#{usuarios.usuario.name}" />
+  
+  APELLIDOS: 
+  <p:inputText value="#{usuarios.usuario.surname}" />
+  
+  EMAIL: 
+  <p:inputText value="#{usuarios.usuario.email}" />
+  
+  CONTRASEÑA: 
+  <p:inputText type = "password" value="#{usuarios.usuario.password}" />
+  REPITA LA CONTRASEÑA: 
+  <p:inputText type = "password" value="#{usuarios.comparaPass}" />
+		</p:panelGrid>
+		<p:commandButton value="Salvar" action="#{usuarios.modificarUsuario}" />
+	</h:form>
+</h:body>
+</html>

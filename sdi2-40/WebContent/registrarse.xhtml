@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>Piloto de SDI</title>
+</h:head>
+<h:body>
+	<h:form>
+		<p:menubar>
+			<p:menuitem value="ShareMyTrip" action="login">
+			</p:menuitem>
+		</p:menubar>
+	</h:form>
+	<center>
+		<h1>ShareMyTrip</h1>
+		<br />
+		<h2>Registro de usuario</h2>
+	</center>
+	<br />
+	<br />
+<br />
+	<h:form>
+		<p:panelGrid columns="2" styleClass="formTable">
+  NOMBRE DE USUARIO: 
+  <p:inputText value="#{usuarios.usuario.login}" />
+  NOMBRE: 
+  <p:inputText value="#{usuarios.usuario.name}" />
+  
+  APELLIDOS: 
+  <p:inputText value="#{usuarios.usuario.surname}" />
+  
+  EMAIL: 
+  <p:inputText value="#{usuarios.usuario.email}" />
+  
+  CONTRASEÑA: 
+  <p:inputText type = "password" value="#{usuarios.usuario.password}" />
+  REPITA LA CONTRASEÑA: 
+  <p:inputText type = "password" value="#{usuarios.comparaPass}" />
+		</p:panelGrid>
+		<p:commandButton value="Salvar" action="#{usuarios.crearUsuario}" />
+	</h:form>
+</h:body>
+</html>

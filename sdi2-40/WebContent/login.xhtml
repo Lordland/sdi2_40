@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>ShareMyTrip - Inicio de sesión</title>
+	<h:body>
+		<h:form>
+			<p:menubar>
+				<p:menuitem value="ShareMyTrip">
+				</p:menuitem>
+				<p:submenu label="Gestión de usuarios">
+					<p:menuitem value="Registrarse" action="registro">
+					</p:menuitem>
+				</p:submenu>
+			</p:menubar>
+		</h:form>
+		<h:form>
+			<center>
+				<h1>Inicio de sesión</h1>
+			</center>
+			<p:panelGrid columns="2" styleClass="formTable"
+				style="margin: 0 auto;">
+				USUARIO: 
+				<p:inputText type="text" value="#{usuarios.login}"></p:inputText>
+				CONTRASEÑA:
+				<p:inputText type="password" required = "true" value="#{usuarios.pass}"></p:inputText>
+			</p:panelGrid>
+			<div align="center">
+				<p:commandButton value="Enviar" action="#{usuarios.iniciarSesion}" ajax = "false">
+				</p:commandButton>
+			</div>
+
+		</h:form>
+		<br></br>
+		<br></br>
+		<br></br>
+		<br></br>
+		<br></br>
+		<p:dataTable var="viaje" styleClass="formTable"
+			value="#{viajes.viajes}" border="1" style="margin: 0 auto;">
+			style="margin: 0 auto;">
+			<p:column>
+				<f:facet name="header">Salida</f:facet>#{viaje.departure.city}</p:column>
+			<p:column>
+				<f:facet name="header">Destino</f:facet>#{viaje.destination.city}</p:column>
+			<p:column>
+				<f:facet name="header">Fecha de llegada</f:facet>#{viaje.arrivalDate}</p:column>
+			<p:column>
+				<f:facet name="header">Fecha de salida</f:facet>#{viaje.departureDate}</p:column>
+			<p:column>
+				<f:facet name="header">Fecha de cierre</f:facet>#{viaje.closingDate}</p:column>
+			<p:column>
+				<f:facet name="header">Plazas disponibles</f:facet>#{viaje.availablePax}</p:column>
+			<p:column>
+				<f:facet name="header">Plazas Máximas</f:facet>#{viaje.maxPax}</p:column>
+			<p:column>
+				<f:facet name="header">Precio aproximado</f:facet>#{viaje.estimatedCost}</p:column>
+			<p:column>
+				<f:facet name="header">Estado</f:facet>#{viaje.status}</p:column>
+		</p:dataTable>
+	</h:body>
+</h:head>
+</html>
