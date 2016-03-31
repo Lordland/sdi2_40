@@ -4,28 +4,23 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
+
 <h:head>
-	<title>ShareMyTrip - Página principal del usuario</title>
+	<title>ShareMyTrip - Página del promotor</title>
 </h:head>
 <h:body>
 	<h:form>
 		<p:menubar>
 			<p:menuitem value="ShareMyTrip">
 			</p:menuitem>
-			<p:submenu label="Gestión de usuarios">
-				<p:menuitem value="Cerrar sesión" action="cerrar"
-					actionListener="#{usuarios.cerrarSesion}" ajax = "false">
-				</p:menuitem>
-				<p:menuitem value="Modificar usuario" action="modificar">
-				</p:menuitem>
-				<p:menuitem value="Promotor" action="promotor" 
-					actionListener="#{usuarios.cerrarSesion}" ajax = "false">
+			<p:submenu label="Crear viaje">
+				<p:menuitem value="Crear viaje" action="crearViaje">
 				</p:menuitem>
 			</p:submenu>
 		</p:menubar>
 	</h:form>
 	<p:dataTable var="viaje" styleClass="formTable"
-		value="#{viajes.viajes}" border="1" style="margin: 0 auto;">
+		value="#{viajes.listaViajePromotor(usuarios.usuario.id)}" border="1" style="margin: 0 auto;">
 			style="margin: 0 auto;">
 			<p:column>
 			<f:facet name="header">Salida</f:facet>#{viaje.departure.city}</p:column>
@@ -46,11 +41,9 @@
 		<p:column>
 			<f:facet name="header">Estado</f:facet>#{viaje.status}</p:column>
 		<p:column>
-			<f:facet name="header">Apuntarse</f:facet>
-			<p:commandLink action="#{usuarios.apuntarse}" type="submit" value="APUNTARSE"
+			<f:facet name="header">Cancelar</f:facet>
+			<p:commandLink action="#{usuarios.cancelar}" type="submit" value="CANCELAR"
 				immediate="true">
-				<f:setPropertyActionListener target="#{usuarios.usuario}"
-					value="#{usuario}" />
 			</p:commandLink>
 		</p:column>
 	</p:dataTable>
