@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.bean.*;
-import javax.faces.event.ActionEvent;
-
 import uo.sdi.model.Application;
 import uo.sdi.model.Trip;
 import uo.sdi.model.TripStatus;
@@ -30,7 +28,9 @@ public class BeanViajes implements Serializable {
 	 */
 	public BeanViajes() {
 		listaViaje();
-		listaViajeUsuario();
+		viajesUsuario = new ArrayList<Trip>();
+		viajesPromotor = new ArrayList<Trip>();
+		viajesApuntados = new ArrayList<Trip>();
 	}
 
 	public List<Trip> getViajesUsuario() {
@@ -98,10 +98,10 @@ public class BeanViajes implements Serializable {
 	 * Lista los viajes de la BD menos aquellos a los que el usuario que ha
 	 * iniciado sesión es promotor de ellos
 	 */
-	public void listaViajeUsuario() {
+	public void listaViajeUsuario(long id) {
 		 List<Trip> aux = new ArrayList<Trip>();
 		 for(Trip t : viajes){
-			 if(!t.getPromoterId().equals(viaje.getPromoterId())){
+			 if(!t.getPromoterId().equals(id)){
 				 aux.add(t);
 			 }
 		 }
@@ -116,7 +116,7 @@ public class BeanViajes implements Serializable {
 		 List<Trip> aux = new ArrayList<Trip>();
 		 for(Trip t : viajes){
 			 if(t.getPromoterId().equals(id)){
-				 viajesPromotor.add(t);
+				 aux.add(t);
 			 }
 		 }
 		 setViajesPromotor(aux);

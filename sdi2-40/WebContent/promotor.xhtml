@@ -20,8 +20,7 @@
 		</p:menubar>
 	</h:form>
 	<p:dataTable var="viaje" styleClass="formTable"
-		value="#{viajes.listaViajePromotor(usuarios.usuario.id)}" border="1" style="margin: 0 auto;">
-			style="margin: 0 auto;">
+		value="#{usuarios.listaPromotor}" border="1" style="margin: 0 auto;">
 			<p:column>
 			<f:facet name="header">Salida</f:facet>#{viaje.departure.city}</p:column>
 		<p:column>

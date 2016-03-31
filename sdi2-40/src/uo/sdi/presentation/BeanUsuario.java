@@ -1,11 +1,14 @@
 package uo.sdi.presentation;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.enterprise.context.SessionScoped;
 import javax.faces.bean.ManagedBean;
 
 import alb.util.log.Log;
+import uo.sdi.model.Trip;
 import uo.sdi.model.User;
 import uo.sdi.model.UserStatus;
 import uo.sdi.persistence.PersistenceFactory;
@@ -15,14 +18,16 @@ import uo.sdi.persistence.UserDao;
 @SessionScoped
 public class BeanUsuario implements Serializable {
 	private static final long serialVersionUID = 58741L;
-
+	BeanViajes bv = new BeanViajes();
 	private User usuario = new User();
 	private String comparaPass;
 	private String login;
 	private String pass;
+	
+	private List<Trip> listaPromotor = null;
 
 	public BeanUsuario() {
-
+		listaPromotor = new ArrayList<Trip>();
 	}
 
 	public User getUsuario() {
@@ -72,10 +77,30 @@ public class BeanUsuario implements Serializable {
 				Log.info("El usuario [%s] ha iniciado sesión",
 						usuario.getLogin());
 				usuario = userByLogin;
+				rellenarListas();
+				listarPromotor();
 				return "exito";
 			}
 		}
 		return "fracaso";
+	}
+	
+	public void listarPromotor(){
+		for(Trip t : bv.getViajesPromotor()){
+			listaPromotor.add(t);
+		}
+	}
+	
+	public String rellenarListas(){
+		try{
+			bv.listaViajePromotor(usuario.getId());
+			bv.listaViajeUsuario(usuario.getId());
+			bv.listaViajeApuntado(usuario.getId());
+			return "exito";
+		}catch(NullPointerException e){
+			return "fracaso";
+		}
+		
 	}
 
 	/**

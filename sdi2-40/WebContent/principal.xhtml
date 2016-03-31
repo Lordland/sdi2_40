@@ -19,14 +19,13 @@
 				<p:menuitem value="Modificar usuario" action="modificar">
 				</p:menuitem>
 				<p:menuitem value="Promotor" action="promotor" 
-					actionListener="#{usuarios.cerrarSesion}" ajax = "false">
+					actionListener="#{usuarios.rellenarListas}" ajax = "false">
 				</p:menuitem>
 			</p:submenu>
 		</p:menubar>
 	</h:form>
 	<p:dataTable var="viaje" styleClass="formTable"
 		value="#{viajes.viajes}" border="1" style="margin: 0 auto;">
-			style="margin: 0 auto;">
 			<p:column>
 			<f:facet name="header">Salida</f:facet>#{viaje.departure.city}</p:column>
 		<p:column>
