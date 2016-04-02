@@ -6,7 +6,7 @@
 	<managed-bean>
 		<managed-bean-name>viajes</managed-bean-name>
 		<managed-bean-class>uo.sdi.presentation.BeanViajes</managed-bean-class>
-		<managed-bean-scope>session</managed-bean-scope>
+		<managed-bean-scope>application</managed-bean-scope>
 	</managed-bean>
 	<managed-bean>
 		<managed-bean-name>usuarios</managed-bean-name>
@@ -14,7 +14,7 @@
 		<managed-bean-scope>session</managed-bean-scope>
 	</managed-bean>
 	<managed-bean>
-		<managed-bean-name>aplicacion</managed-bean-name>
+		<managed-bean-name>apuntados</managed-bean-name>
 		<managed-bean-class>uo.sdi.presentation.BeanApplication</managed-bean-class>
 		<managed-bean-scope>session</managed-bean-scope>
 	</managed-bean>
@@ -86,10 +86,6 @@
 			<from-action>#{usuarios.crearViaje}</from-action>
 			<from-outcome>fracaso</from-outcome>
 			<to-view-id>/promotor.xhtml</to-view-id>
-		</navigation-case>
-		<navigation-case>
-			<from-outcome>modificarViaje</from-outcome>
-			<to-view-id>/modificarViaje.xhtml</to-view-id>
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>cerrar</from-outcome>
