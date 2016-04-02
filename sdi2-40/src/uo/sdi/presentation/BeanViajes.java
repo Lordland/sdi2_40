@@ -7,6 +7,8 @@ import java.util.List;
 
 import javax.faces.bean.*;
 
+import org.primefaces.event.RowEditEvent;
+
 import uo.sdi.model.AddressPoint;
 import uo.sdi.model.Application;
 import uo.sdi.model.Trip;
@@ -26,6 +28,8 @@ public class BeanViajes implements Serializable {
 	private List<Trip> viajesUsuario = null;
 	private List<Trip> viajesPromotor = null;
 	private List<Trip> viajesApuntados = null;
+	private List<TripStatus> estados = null;
+	private TripStatus estado;
 
 	/**
 	 * Crea el managed bean e inicializa los valores necesarios
@@ -36,6 +40,19 @@ public class BeanViajes implements Serializable {
 		viajesUsuario = new ArrayList<Trip>();
 		viajesPromotor = new ArrayList<Trip>();
 		viajesApuntados = new ArrayList<Trip>();
+		estados = new ArrayList<TripStatus>();
+		estados.add(TripStatus.CANCELLED);
+		estados.add(TripStatus.CLOSED);
+		estados.add(TripStatus.DONE);
+		estados.add(TripStatus.OPEN);
+	}
+
+	public List<TripStatus> getEstados() {
+		return estados;
+	}
+
+	public void setEstados(List<TripStatus> estados) {
+		this.estados = estados;
 	}
 
 	public List<Trip> getViajesUsuario() {
@@ -69,7 +86,7 @@ public class BeanViajes implements Serializable {
 	public void setViajes(List<Trip> viajes) {
 		this.viajes = viajes;
 	}
-	
+
 	public List<Trip> getViajesApuntados() {
 		return viajesApuntados;
 	}
@@ -83,8 +100,12 @@ public class BeanViajes implements Serializable {
 	 */
 	public void iniciaViaje() {
 		viaje = new Trip();
-		viaje.setDeparture(new AddressPoint("Mi direccion", "Mi ciudad", "Mi país", "Mi provincia", "Mi código postal", new Waypoint(0.0, 0.0)));
-		viaje.setDestination(new AddressPoint("Mi direccion", "Mi ciudad", "Mi país", "Mi provincia", "Mi código postal", new Waypoint(0.0, 0.0)));
+		viaje.setDeparture(new AddressPoint("Mi direccion", "Mi ciudad",
+				"Mi país", "Mi provincia", "Mi código postal", new Waypoint(
+						0.0, 0.0)));
+		viaje.setDestination(new AddressPoint("Mi direccion", "Mi ciudad",
+				"Mi país", "Mi provincia", "Mi código postal", new Waypoint(
+						0.0, 0.0)));
 		viaje.setArrivalDate(new Date());
 		viaje.setClosingDate(new Date());
 		viaje.setDepartureDate(new Date());
@@ -94,25 +115,15 @@ public class BeanViajes implements Serializable {
 		viaje.setEstimatedCost(50.0);
 		viaje.setStatus(TripStatus.OPEN);
 	}
-
-	/**
-	 * Cancela un viaje ya existente
-	 */
-	public void cancelaViaje() {
-		viaje.setStatus(TripStatus.CANCELLED);
-	}
 	
-	/**
-	 * Vuelve a dejar disponible un viaje ya existente que habia sido cancelado
-	 */
-	public void finViaje() {
-		viaje.setStatus(TripStatus.DONE);
-	}
-	
-	public void cierraViaje() {
-		viaje.setStatus(TripStatus.CLOSED);
-	}
 
+	public void actualizar(RowEditEvent event){
+		Trip v = (Trip) event.getObject();
+		TripDao td = PersistenceFactory.newTripDao();
+		td.update(v);
+	} void cancelarActualizar(RowEditEvent event){
+		
+	}
 	/**
 	 * Lista todos los viajes existentes en la BD
 	 */
@@ -125,53 +136,59 @@ public class BeanViajes implements Serializable {
 	 * iniciado sesión es promotor de ellos
 	 */
 	public void listaViajeUsuario(long id) {
-		 List<Trip> aux = new ArrayList<Trip>();
-		 for(Trip t : viajes){
-			 if(!t.getPromoterId().equals(id)){
-				 aux.add(t);
-			 }
-		 }
-		 setViajesUsuario(aux);
+		List<Trip> aux = new ArrayList<Trip>();
+		for (Trip t : viajes) {
+			if (!t.getPromoterId().equals(id)) {
+				aux.add(t);
+			}
+		}
+		setViajesUsuario(aux);
 	}
 
 	/**
-	 * Lista los viajes de la BD los cuales ell usuario que ha iniciado
-	 * sesión es promotor
+	 * Lista los viajes de la BD los cuales ell usuario que ha iniciado sesión
+	 * es promotor
 	 */
 	public void listaViajePromotor(long id) {
-		 List<Trip> aux = new ArrayList<Trip>();
-		 for(Trip t : viajes){
-			 if(t.getPromoterId().equals(id)){
-				 aux.add(t);
-			 }
-		 }
-		 setViajesPromotor(aux);
+		List<Trip> aux = new ArrayList<Trip>();
+		for (Trip t : viajes) {
+			if (t.getPromoterId().equals(id)) {
+				aux.add(t);
+			}
+		}
+		setViajesPromotor(aux);
 	}
 
 	/**
-	 * Lista los viajes a los que el usuario que ha iniciado sesión se
-	 * ha apuntado
+	 * Lista los viajes a los que el usuario que ha iniciado sesión se ha
+	 * apuntado
 	 */
 	public void listaViajeApuntado(long id) {
-		 ApplicationDao ad = PersistenceFactory.newApplicationDao();
-		 TripDao td = PersistenceFactory.newTripDao();
-		 List<Application> aux = ad.findByUserId(id);
-		 List<Trip> v = new ArrayList<Trip>();
-		 for(Application t : aux){
-			 v.add(td.findById(t.getTripId()));
-		 }
-		 setViajesApuntados(v);
+		ApplicationDao ad = PersistenceFactory.newApplicationDao();
+		TripDao td = PersistenceFactory.newTripDao();
+		List<Application> aux = ad.findByUserId(id);
+		List<Trip> v = new ArrayList<Trip>();
+		for (Application t : aux) {
+			v.add(td.findById(t.getTripId()));
+		}
+		setViajesApuntados(v);
 	}
 
 	/**
-	 * Modifica un viaje concreto que el
-	 * usuario seleccione
+	 * Modifica un viaje concreto que el usuario seleccione
 	 */
 	public void cambiaViaje() {
 		TripDao td = PersistenceFactory.newTripDao();
 		Trip t = td.findById(viaje.getId());
 		td.update(t);
 	}
-	
-	
+
+	public TripStatus getEstado() {
+		return estado;
+	}
+
+	public void setEstado(TripStatus estado) {
+		this.estado = estado;
+	}
+
 }

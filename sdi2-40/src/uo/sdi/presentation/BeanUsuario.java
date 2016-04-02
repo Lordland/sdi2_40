@@ -1,8 +1,6 @@
 package uo.sdi.presentation;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.el.ELContext;
 import javax.el.ExpressionFactory;
@@ -14,7 +12,6 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
 
 import alb.util.log.Log;
-import uo.sdi.model.Trip;
 import uo.sdi.model.User;
 import uo.sdi.model.UserStatus;
 import uo.sdi.persistence.PersistenceFactory;
@@ -132,6 +129,7 @@ public class BeanUsuario implements Serializable {
 		setUsuario(new User());
 		pass = "";
 		login = "";
+		bv.listaViaje();
 	}
 	
 	/**
