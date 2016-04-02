@@ -1,14 +1,17 @@
 package uo.sdi.presentation;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
+import javax.el.ELContext;
+import javax.el.ExpressionFactory;
+import javax.el.ValueExpression;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.Application;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.context.FacesContext;
 
 import alb.util.log.Log;
-import uo.sdi.model.Trip;
 import uo.sdi.model.User;
 import uo.sdi.model.UserStatus;
 import uo.sdi.persistence.PersistenceFactory;
@@ -19,22 +22,31 @@ import uo.sdi.persistence.UserDao;
 @SessionScoped
 public class BeanUsuario implements Serializable {
 	private static final long serialVersionUID = 58741L;
-	BeanViajes bv = new BeanViajes();
+	@ManagedProperty("#{viajes}")
+	private BeanViajes bv;
 	private User usuario = new User();
 	private String comparaPass;
 	private String login;
 	private String pass;
-	
-	private List<Trip> listaPromotor = new ArrayList<Trip>();
-	private List<Trip> listaUsuarios = new ArrayList<Trip>();
-	private List<Trip> listaApuntados = new ArrayList<Trip>();
-	private Trip viaje = new Trip();
-
-	
 
 	public BeanUsuario() {
+		FacesContext context = FacesContext.getCurrentInstance();
+		ELContext contextoEL = context.getELContext( );
+		Application apli  = context.getApplication( );
+		ExpressionFactory ef = apli.getExpressionFactory( );
+		ValueExpression ve = ef.createValueExpression(contextoEL, "#{viajes}",BeanViajes.class);
+		bv = (BeanViajes) ve.getValue(contextoEL);
 	}
 
+	public BeanViajes getBv() {
+		return bv;
+	}
+
+	public void setBv(BeanViajes bv) {
+		this.bv = bv;
+	}
+
+	
 	public User getUsuario() {
 		return usuario;
 	}
@@ -66,39 +78,7 @@ public class BeanUsuario implements Serializable {
 	public void setPass(String pass) {
 		this.pass = pass;
 	}
-	
-	public List<Trip> getListaPromotor() {
-		return listaPromotor;
-	}
 
-	public void setListaPromotor(List<Trip> listaPromotor) {
-		this.listaPromotor = listaPromotor;
-	}
-
-	public List<Trip> getListaUsuarios() {
-		return listaUsuarios;
-	}
-
-	public void setListaUsuarios(List<Trip> listaUsuarios) {
-		this.listaUsuarios = listaUsuarios;
-	}
-
-	public List<Trip> getListaApuntados() {
-		return listaApuntados;
-	}
-
-	public void setListaApuntados(List<Trip> listaApuntados) {
-		this.listaApuntados = listaApuntados;
-	}
-
-	public Trip getViaje() {
-		return viaje;
-	}
-
-	public void setViaje(Trip viaje) {
-		this.viaje = viaje;
-	}
-	
 	/**
 	 * Este método comprueba que los datos de inicio  sean correctos y carga los datos
 	 * necesarios para la vista principal (lista de viajes sin los viajes que promueve
@@ -114,7 +94,6 @@ public class BeanUsuario implements Serializable {
 				Log.info("El usuario [%s] ha iniciado sesión",
 						usuario.getLogin());
 				usuario = userByLogin;
-				rellenarListas();
 				return "exito";
 			}
 		}
@@ -123,12 +102,9 @@ public class BeanUsuario implements Serializable {
 	
 	public String rellenarListas(){
 		try{
-			bv.listaViajePromotor(usuario.getId());
-			setListaPromotor(bv.getViajesPromotor());
-			bv.listaViajeUsuario(usuario.getId());
-			setListaUsuarios(bv.getViajesUsuario());
-			bv.listaViajeApuntado(usuario.getId());
-			setListaApuntados(bv.getViajesApuntados());
+			getBv().listaViajePromotor(usuario.getId());
+			getBv().listaViajeUsuario(usuario.getId());
+			getBv().listaViajeApuntado(usuario.getId());
 			return "exito";
 		}catch(NullPointerException e){
 			return "fracaso";
@@ -153,6 +129,7 @@ public class BeanUsuario implements Serializable {
 		setUsuario(new User());
 		pass = "";
 		login = "";
+		bv.listaViaje();
 	}
 	
 	/**
@@ -162,15 +139,18 @@ public class BeanUsuario implements Serializable {
 	public String crearViaje() {
 		TripDao dao = PersistenceFactory.newTripDao();
 		try {
-			dao.save(viaje);
+			bv.getViaje().setPromoterId(usuario.getId());
+			bv.getViaje().setMaxPax(bv.getViaje().getAvailablePax());
+			dao.save(bv.getViaje());
 			Log.info("El viaje [%s] ha sido creado satisfactoriamente",
-					viaje.getDeparture().getCity()+"-"+viaje.getDestination().getCity());
-			setViaje(new Trip());
+					bv.getViaje().getDeparture().getCity()+"-"+bv.getViaje().getDestination().getCity());
+			bv.iniciaViaje();
+			bv.listaViaje();
 			return "exito";
 		} catch (Exception e) {
 			Log.error("Ha ocurrido algo creando el viaje [%s]",
-					viaje.getDeparture().getCity()+"-"+viaje.getDestination().getCity());
-			setViaje(new Trip());
+					bv.getViaje().getDeparture().getCity()+"-"+bv.getViaje().getDestination().getCity());
+			bv.iniciaViaje();
 			return "fracaso";
 		}
 	}

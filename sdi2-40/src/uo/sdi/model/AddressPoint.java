@@ -26,6 +26,32 @@ public class AddressPoint {
 		this.waypoint = waypoint;
 	}
 
+	
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
+
+	public void setCountry(String country) {
+		this.country = country;
+	}
+
+	public void setZipCode(String zipCode) {
+		this.zipCode = zipCode;
+	}
+
+	public void setWaypoint(Waypoint waypoint) {
+		this.waypoint = waypoint;
+	}
+
+	
 	public String getAddress() {
 		return address;
 	}

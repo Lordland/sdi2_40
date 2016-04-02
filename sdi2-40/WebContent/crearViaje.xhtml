@@ -10,7 +10,7 @@
 <h:body>
 	<h:form>
 		<p:menubar>
-			<p:menuitem value="Volver a promotor" action = "promotor">
+			<p:menuitem value="Volver a promotor" action="promotor">
 			</p:menuitem>
 		</p:menubar>
 	</h:form>
@@ -21,7 +21,7 @@
 	</center>
 	<br />
 	<br />
-<br />
+	<br />
 	<h:form>
 		<p:panelGrid columns="2" styleClass="formTable">
   Dirección de salida: 
@@ -65,16 +65,21 @@
   
   Longitud de destino:
   <p:inputText value="#{viajes.viaje.destination.waypoint.lon}" />
-  
-  Fecha de llegada:
-  <p:inputText type = "datetime-local" value="#{viajes.viaje.arrivalDate}" />
-  
-  Fecha de salida:
-  <p:inputText type = "datetime-local" value="#{viajes.viaje.departureDate}" />
-  
-  Fecha limite:
-  <p:inputText type = "datetime-local" value="#{viajes.viaje.closingDate}" />
-  
+
+
+			<p:outputLabel for="fechallegada" value="Fecha de llegada:" />
+			<p:calendar id="fechallegada" value="#{viajes.viaje.arrivalDate}"
+				pattern="MM/dd/yyyy HH:mm:ss" />
+
+
+			<p:outputLabel for="fechasalida" value=" Fecha de salida:" />
+			<p:calendar id="fechasalida" value="#{viajes.viaje.departureDate}"
+				pattern="MM/dd/yyyy HH:mm:ss" />
+
+			<p:outputLabel for="fechalimite" value="Fecha limite:" />
+			<p:calendar id="fechalimite" value="#{viajes.viaje.closingDate}"
+				pattern="MM/dd/yyyy HH:mm:ss" />
+ 
   Plazas maximas:
   <p:inputText value="#{viajes.viaje.maxPax}" />
   
@@ -83,11 +88,11 @@
   
   Comentarios:
   <p:inputText value="#{viajes.viaje.comments}" />
-  
-  		</p:panelGrid>
+
+		</p:panelGrid>
 		<p:commandButton value="Salvar" action="#{usuarios.crearViaje}" />
-		
-  
+
+
 	</h:form>
 </h:body>
 </html>
