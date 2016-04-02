@@ -2,12 +2,16 @@ package uo.sdi.presentation;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.faces.bean.*;
+
+import uo.sdi.model.AddressPoint;
 import uo.sdi.model.Application;
 import uo.sdi.model.Trip;
 import uo.sdi.model.TripStatus;
+import uo.sdi.model.Waypoint;
 import uo.sdi.persistence.ApplicationDao;
 import uo.sdi.persistence.PersistenceFactory;
 import uo.sdi.persistence.TripDao;
@@ -17,7 +21,7 @@ import uo.sdi.persistence.TripDao;
 public class BeanViajes implements Serializable {
 	private static final long serialVersionUID = 56897L;
 
-	private Trip viaje = new Trip();
+	private Trip viaje;
 	private List<Trip> viajes = null;
 	private List<Trip> viajesUsuario = null;
 	private List<Trip> viajesPromotor = null;
@@ -27,6 +31,7 @@ public class BeanViajes implements Serializable {
 	 * Crea el managed bean e inicializa los valores necesarios
 	 */
 	public BeanViajes() {
+		iniciaViaje();
 		listaViaje();
 		viajesUsuario = new ArrayList<Trip>();
 		viajesPromotor = new ArrayList<Trip>();
@@ -77,7 +82,17 @@ public class BeanViajes implements Serializable {
 	 * 
 	 */
 	public void iniciaViaje() {
-		viaje.setStatus(TripStatus.DONE);
+		viaje = new Trip();
+		viaje.setDeparture(new AddressPoint("Mi direccion", "Mi ciudad", "Mi país", "Mi provincia", "Mi código postal", new Waypoint(0.0, 0.0)));
+		viaje.setDestination(new AddressPoint("Mi direccion", "Mi ciudad", "Mi país", "Mi provincia", "Mi código postal", new Waypoint(0.0, 0.0)));
+		viaje.setArrivalDate(new Date());
+		viaje.setClosingDate(new Date());
+		viaje.setDepartureDate(new Date());
+		viaje.setComments("Comentario de prueba");
+		viaje.setAvailablePax(5);
+		viaje.setMaxPax(5);
+		viaje.setEstimatedCost(50.0);
+		viaje.setStatus(TripStatus.OPEN);
 	}
 
 	/**
@@ -90,8 +105,12 @@ public class BeanViajes implements Serializable {
 	/**
 	 * Vuelve a dejar disponible un viaje ya existente que habia sido cancelado
 	 */
-	public void abreViaje() {
-		viaje.setStatus(TripStatus.OPEN);
+	public void finViaje() {
+		viaje.setStatus(TripStatus.DONE);
+	}
+	
+	public void cierraViaje() {
+		viaje.setStatus(TripStatus.CLOSED);
 	}
 
 	/**
