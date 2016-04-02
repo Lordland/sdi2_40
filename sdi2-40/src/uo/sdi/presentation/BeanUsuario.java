@@ -94,6 +94,7 @@ public class BeanUsuario implements Serializable {
 				Log.info("El usuario [%s] ha iniciado sesión",
 						usuario.getLogin());
 				usuario = userByLogin;
+				rellenarListas();
 				return "exito";
 			}
 		}
