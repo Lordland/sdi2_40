@@ -13,6 +13,11 @@
 		<managed-bean-class>uo.sdi.presentation.BeanUsuario</managed-bean-class>
 		<managed-bean-scope>session</managed-bean-scope>
 	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>aplicacion</managed-bean-name>
+		<managed-bean-class>uo.sdi.presentation.BeanApplication</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+	</managed-bean>
 	<navigation-rule>
 		<display-name>login.xhtml</display-name>
 		<from-view-id>/login.xhtml</from-view-id>
@@ -59,6 +64,40 @@
 		<navigation-case>
 			<from-outcome>modificar</from-outcome>
 			<to-view-id>/modificar.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>promotor</from-outcome>
+			<to-view-id>/promotor.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+	<navigation-rule>
+		<display-name>promotor.xhtml</display-name>
+		<from-view-id>/promotor.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>principal</from-outcome>
+			<to-view-id>/principal.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-action>#{usuarios.crearViaje}</from-action>
+			<from-outcome>exito</from-outcome>
+			<to-view-id>/promotor.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-action>#{usuarios.crearViaje}</from-action>
+			<from-outcome>fracaso</from-outcome>
+			<to-view-id>/promotor.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>cerrar</from-outcome>
+			<to-view-id>/login.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+	<navigation-rule>
+		<display-name>crearViaje.xhtml</display-name>
+		<from-view-id>/crearViaje.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>promotor</from-outcome>
+			<to-view-id>/promotor.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>
 	<navigation-rule>
