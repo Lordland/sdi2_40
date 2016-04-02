@@ -10,11 +10,9 @@ import javax.faces.bean.*;
 import org.primefaces.event.RowEditEvent;
 
 import uo.sdi.model.AddressPoint;
-import uo.sdi.model.Application;
 import uo.sdi.model.Trip;
 import uo.sdi.model.TripStatus;
 import uo.sdi.model.Waypoint;
-import uo.sdi.persistence.ApplicationDao;
 import uo.sdi.persistence.PersistenceFactory;
 import uo.sdi.persistence.TripDao;
 
