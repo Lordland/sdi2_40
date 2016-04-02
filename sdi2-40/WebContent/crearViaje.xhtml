@@ -1,0 +1,93 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>Piloto de SDI</title>
+</h:head>
+<h:body>
+	<h:form>
+		<p:menubar>
+			<p:menuitem value="Volver a promotor" action = "promotor">
+			</p:menuitem>
+		</p:menubar>
+	</h:form>
+	<center>
+		<h1>ShareMyTrip</h1>
+		<br />
+		<h2>Crear viaje</h2>
+	</center>
+	<br />
+	<br />
+<br />
+	<h:form>
+		<p:panelGrid columns="2" styleClass="formTable">
+  Dirección de salida: 
+  <p:inputText value="#{viajes.viaje.departure.address}" />
+  
+  Ciudad de salida: 
+  <p:inputText value="#{viajes.viaje.departure.city}" />
+  
+  Estado de salida:
+  <p:inputText value="#{viajes.viaje.departure.state}" />
+  
+  Pais de salida:
+  <p:inputText value="#{viajes.viaje.departure.country}" />
+  
+  Zipcode de salida: 
+  <p:inputText value="#{viajes.viaje.departure.zipCode}" />
+
+  Latitud de salida:
+  <p:inputText value="#{viajes.viaje.departure.waypoint.lat}" />
+  
+  Longitud de salida:
+  <p:inputText value="#{viajes.viaje.departure.waypoint.lon}" />
+  
+  Dirección de destino: 
+  <p:inputText value="#{viajes.viaje.destination.address}" />
+  
+  Ciudad de destino: 
+  <p:inputText value="#{viajes.viaje.departure.city}" />
+  
+  Estado de destino:
+  <p:inputText value="#{viajes.viaje.departure.state}" />
+  
+  Pais de destino:
+  <p:inputText value="#{viajes.viaje.departure.country}" />
+  
+  Zipcode de destino: 
+  <p:inputText value="#{viajes.viaje.departure.zipCode}" />
+
+  Latitud de destino:
+  <p:inputText value="#{viajes.viaje.destination.waypoint.lat}" />
+  
+  Longitud de destino:
+  <p:inputText value="#{viajes.viaje.destination.waypoint.lon}" />
+  
+  Fecha de llegada:
+  <p:inputText type = "datetime-local" value="#{viajes.viaje.arrivalDate}" />
+  
+  Fecha de salida:
+  <p:inputText type = "datetime-local" value="#{viajes.viaje.departureDate}" />
+  
+  Fecha limite:
+  <p:inputText type = "datetime-local" value="#{viajes.viaje.closingDate}" />
+  
+  Plazas maximas:
+  <p:inputText value="#{viajes.viaje.maxPax}" />
+  
+  Coste:
+  <p:inputText value="#{viajes.viaje.estimatedCost}" />
+  
+  Comentarios:
+  <p:inputText value="#{viajes.viaje.comments}" />
+  
+  		</p:panelGrid>
+		<p:commandButton value="Salvar" action="#{usuarios.crearViaje}" />
+		
+  
+	</h:form>
+</h:body>
+</html>
