@@ -24,6 +24,8 @@ public class BeanUsuario implements Serializable {
 	private static final long serialVersionUID = 58741L;
 	@ManagedProperty("#{viajes}")
 	private BeanViajes bv;
+	@ManagedProperty("#{apuntados}")
+	private BeanApplication ba;
 	private User usuario = new User();
 	private String comparaPass;
 	private String login;
@@ -31,10 +33,11 @@ public class BeanUsuario implements Serializable {
 
 	public BeanUsuario() {
 		FacesContext context = FacesContext.getCurrentInstance();
-		ELContext contextoEL = context.getELContext( );
-		Application apli  = context.getApplication( );
-		ExpressionFactory ef = apli.getExpressionFactory( );
-		ValueExpression ve = ef.createValueExpression(contextoEL, "#{viajes}",BeanViajes.class);
+		ELContext contextoEL = context.getELContext();
+		Application apli = context.getApplication();
+		ExpressionFactory ef = apli.getExpressionFactory();
+		ValueExpression ve = ef.createValueExpression(contextoEL, "#{viajes}",
+				BeanViajes.class);
 		bv = (BeanViajes) ve.getValue(contextoEL);
 	}
 
@@ -46,7 +49,14 @@ public class BeanUsuario implements Serializable {
 		this.bv = bv;
 	}
 
-	
+	public BeanApplication getBa() {
+		return ba;
+	}
+
+	public void setBa(BeanApplication ba) {
+		this.ba = ba;
+	}
+
 	public User getUsuario() {
 		return usuario;
 	}
@@ -80,10 +90,11 @@ public class BeanUsuario implements Serializable {
 	}
 
 	/**
-	 * Este método comprueba que los datos de inicio  sean correctos y carga los datos
-	 * necesarios para la vista principal (lista de viajes sin los viajes que promueve
-	 * (listaUsuarios de BeanViajes) y lista de viajes a los que se apuntó
-	 * (listaViajeApuntado)
+	 * Este método comprueba que los datos de inicio sean correctos y carga los
+	 * datos necesarios para la vista principal (lista de viajes sin los viajes
+	 * que promueve (listaUsuarios de BeanViajes) y lista de viajes a los que se
+	 * apuntó (listaViajeApuntado)
+	 * 
 	 * @return exito en caso de que todo fuera bien y fracaso en el contrario
 	 */
 	public String iniciarSesion() {
@@ -99,22 +110,22 @@ public class BeanUsuario implements Serializable {
 		}
 		return "fracaso";
 	}
-	
-	public String rellenarListas(){
-		try{
-			getBv().listaViajePromotor(usuario.getId());
-			getBv().listaViajeUsuario(usuario.getId());
-			getBv().listaViajeApuntado(usuario.getId());
+
+	public String rellenarListas() {
+		try {
+			bv.listaViajePromotor(usuario.getId());
+			bv.listaViajeUsuario(usuario.getId());
+			ba.listaApuntadosUsuario(usuario.getId());
 			return "exito";
-		}catch(NullPointerException e){
+		} catch (NullPointerException e) {
 			return "fracaso";
 		}
-		
+
 	}
 
 	/**
-	 * Envía a la BD el objeto User de este bean que ya ha sido 
-	 * previamente modificado
+	 * Envía a la BD el objeto User de este bean que ya ha sido previamente
+	 * modificado
 	 */
 	public void modificarUsuario() {
 		UserDao dao = PersistenceFactory.newUserDao();
@@ -131,9 +142,10 @@ public class BeanUsuario implements Serializable {
 		login = "";
 		bv.listaViaje();
 	}
-	
+
 	/**
 	 * Introduce a la BD el viaje con los datos proporcionados
+	 * 
 	 * @return exito si se introdujo adecuadamente y fracaso si hubo algún error
 	 */
 	public String crearViaje() {
@@ -142,23 +154,26 @@ public class BeanUsuario implements Serializable {
 			bv.getViaje().setPromoterId(usuario.getId());
 			bv.getViaje().setMaxPax(bv.getViaje().getAvailablePax());
 			dao.save(bv.getViaje());
-			Log.info("El viaje [%s] ha sido creado satisfactoriamente",
-					bv.getViaje().getDeparture().getCity()+"-"+bv.getViaje().getDestination().getCity());
+			Log.info("El viaje [%s] ha sido creado satisfactoriamente", bv
+					.getViaje().getDeparture().getCity()
+					+ "-" + bv.getViaje().getDestination().getCity());
 			bv.iniciaViaje();
 			bv.listaViaje();
 			return "exito";
 		} catch (Exception e) {
-			Log.error("Ha ocurrido algo creando el viaje [%s]",
-					bv.getViaje().getDeparture().getCity()+"-"+bv.getViaje().getDestination().getCity());
+			Log.error("Ha ocurrido algo creando el viaje [%s]", bv.getViaje()
+					.getDeparture().getCity()
+					+ "-" + bv.getViaje().getDestination().getCity());
 			bv.iniciaViaje();
 			return "fracaso";
 		}
 	}
 
 	/**
-	 * Introduce a la BD el usuario con los datos proporcionados y limpia los valores
-	 * para que no se muestren después en posteriores formularios si el mismo usuario
-	 * quisiera crear varios usuarios.
+	 * Introduce a la BD el usuario con los datos proporcionados y limpia los
+	 * valores para que no se muestren después en posteriores formularios si el
+	 * mismo usuario quisiera crear varios usuarios.
+	 * 
 	 * @return exito si se introdujo adecuadamente y fracaso si hubo algún error
 	 */
 	public String crearUsuario() {
@@ -180,7 +195,5 @@ public class BeanUsuario implements Serializable {
 		}
 
 	}
-
-	
 
 }

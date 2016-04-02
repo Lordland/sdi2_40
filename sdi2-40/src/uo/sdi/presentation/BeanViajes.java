@@ -19,7 +19,7 @@ import uo.sdi.persistence.PersistenceFactory;
 import uo.sdi.persistence.TripDao;
 
 @ManagedBean(name = "viajes")
-@SessionScoped
+@ApplicationScoped
 public class BeanViajes implements Serializable {
 	private static final long serialVersionUID = 56897L;
 
@@ -27,7 +27,6 @@ public class BeanViajes implements Serializable {
 	private List<Trip> viajes = null;
 	private List<Trip> viajesUsuario = null;
 	private List<Trip> viajesPromotor = null;
-	private List<Trip> viajesApuntados = null;
 	private List<TripStatus> estados = null;
 	private TripStatus estado;
 
@@ -39,7 +38,6 @@ public class BeanViajes implements Serializable {
 		listaViaje();
 		viajesUsuario = new ArrayList<Trip>();
 		viajesPromotor = new ArrayList<Trip>();
-		viajesApuntados = new ArrayList<Trip>();
 		estados = new ArrayList<TripStatus>();
 		estados.add(TripStatus.CANCELLED);
 		estados.add(TripStatus.CLOSED);
@@ -86,15 +84,7 @@ public class BeanViajes implements Serializable {
 	public void setViajes(List<Trip> viajes) {
 		this.viajes = viajes;
 	}
-
-	public List<Trip> getViajesApuntados() {
-		return viajesApuntados;
-	}
-
-	public void setViajesApuntados(List<Trip> viajesApuntados) {
-		this.viajesApuntados = viajesApuntados;
-	}
-
+	
 	/**
 	 * 
 	 */
@@ -160,21 +150,6 @@ public class BeanViajes implements Serializable {
 	}
 
 	/**
-	 * Lista los viajes a los que el usuario que ha iniciado sesión se ha
-	 * apuntado
-	 */
-	public void listaViajeApuntado(long id) {
-		ApplicationDao ad = PersistenceFactory.newApplicationDao();
-		TripDao td = PersistenceFactory.newTripDao();
-		List<Application> aux = ad.findByUserId(id);
-		List<Trip> v = new ArrayList<Trip>();
-		for (Application t : aux) {
-			v.add(td.findById(t.getTripId()));
-		}
-		setViajesApuntados(v);
-	}
-
-	/**
 	 * Modifica un viaje concreto que el usuario seleccione
 	 */
 	public void cambiaViaje() {
@@ -190,5 +165,7 @@ public class BeanViajes implements Serializable {
 	public void setEstado(TripStatus estado) {
 		this.estado = estado;
 	}
+
+	
 
 }

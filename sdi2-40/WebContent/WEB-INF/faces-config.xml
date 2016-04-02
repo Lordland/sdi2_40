@@ -6,7 +6,7 @@
 	<managed-bean>
 		<managed-bean-name>viajes</managed-bean-name>
 		<managed-bean-class>uo.sdi.presentation.BeanViajes</managed-bean-class>
-		<managed-bean-scope>session</managed-bean-scope>
+		<managed-bean-scope>application</managed-bean-scope>
 	</managed-bean>
 	<managed-bean>
 		<managed-bean-name>usuarios</managed-bean-name>
@@ -14,7 +14,7 @@
 		<managed-bean-scope>session</managed-bean-scope>
 	</managed-bean>
 	<managed-bean>
-		<managed-bean-name>aplicacion</managed-bean-name>
+		<managed-bean-name>apuntados</managed-bean-name>
 		<managed-bean-class>uo.sdi.presentation.BeanApplication</managed-bean-class>
 		<managed-bean-scope>session</managed-bean-scope>
 	</managed-bean>
