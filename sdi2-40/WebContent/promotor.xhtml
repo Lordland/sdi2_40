@@ -53,7 +53,11 @@
 				<f:facet name="header">Plazas Máximas</f:facet>#{viaje.maxPax}</p:column>
 			<p:column>
 				<f:facet name="header">Precio aproximado</f:facet>#{viaje.estimatedCost}</p:column>
-
+			<p:column>
+			<f:facet name="header">Modificar</f:facet>
+			<h:commandLink action="modificarViaje" type="submit" value="MODIFICAR" immediate="true">
+     			<f:setPropertyActionListener target="#{viajes.viaje}" value="#{viaje}"/>
+  			</h:commandLink></p:column>
 			<p:column>
 				<f:facet name="header">Estado</f:facet>
 				<p:cellEditor>
