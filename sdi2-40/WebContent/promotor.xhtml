@@ -13,12 +13,19 @@
 		<p:menubar>
 			<p:menuitem value="ShareMyTrip">
 			</p:menuitem>
-			<p:submenu label="Crear viaje">
-				<p:menuitem value="Crear viaje" action="crearViaje">
+			<p:submenu label="Gestion de viajes">
+				<p:menuitem value="volver a principal" action="principal">
 				</p:menuitem>
+				<p:menuitem value="crear viaje" action="crearViaje">
+				</p:menuitem>
+				
 			</p:submenu>
 		</p:menubar>
 	</h:form>
+	<br></br>
+	<br></br>
+	Viajes creados por usted: 
+	<br></br>
 	<p:dataTable var="viaje" styleClass="formTable"
 		value="#{usuarios.listaPromotor}" border="1" style="margin: 0 auto;">
 			<p:column>
@@ -37,7 +44,48 @@
 			<f:facet name="header">Plazas Máximas</f:facet>#{viaje.maxPax}</p:column>
 		<p:column>
 			<f:facet name="header">Precio aproximado</f:facet>#{viaje.estimatedCost}</p:column>
+		<p:column> 
+			<f:facet name="header">Estado</f:facet>#{viaje.status}</p:column>
 		<p:column>
+			<f:facet name="header">Reabrir</f:facet>
+			<p:commandLink action="#{viajes.abreViaje}" type="submit" value="REABRIR"
+				immediate="true">
+			</p:commandLink>
+		</p:column>
+		<p:column>
+			<f:facet name="header">Cancelar</f:facet>
+			<p:commandLink action="#{viajes.cancelaViaje}" type="submit" value="CANCELAR"
+				immediate="true">
+			</p:commandLink>
+		</p:column>
+		
+	</p:dataTable>
+	
+	<br></br>
+	<br></br>
+	<br></br>
+	
+	Peticiones para apuntarse a sus viajes:
+	<br></br>
+	<p:dataTable var="viaje" styleClass="formTable"
+		value="#{usuarios.listaApuntados}" border="1" style="margin: 0 auto;">
+			<p:column>
+			<f:facet name="header">Salida</f:facet>#{viaje.departure.city}</p:column>
+		<p:column>
+			<f:facet name="header">Destino</f:facet>#{viaje.destination.city}</p:column>
+		<p:column>
+			<f:facet name="header">Fecha de llegada</f:facet>#{viaje.arrivalDate}</p:column>
+		<p:column>
+			<f:facet name="header">Fecha de salida</f:facet>#{viaje.departureDate}</p:column>
+		<p:column>
+			<f:facet name="header">Fecha de cierre</f:facet>#{viaje.closingDate}</p:column>
+		<p:column>
+			<f:facet name="header">Plazas disponibles</f:facet>#{viaje.availablePax}</p:column>
+		<p:column>
+			<f:facet name="header">Plazas Máximas</f:facet>#{viaje.maxPax}</p:column>
+		<p:column>
+			<f:facet name="header">Precio aproximado</f:facet>#{viaje.estimatedCost}</p:column>
+		<p:column> 
 			<f:facet name="header">Estado</f:facet>#{viaje.status}</p:column>
 		<p:column>
 			<f:facet name="header">Cancelar</f:facet>

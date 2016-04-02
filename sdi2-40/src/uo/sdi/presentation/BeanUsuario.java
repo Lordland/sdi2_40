@@ -12,6 +12,7 @@ import uo.sdi.model.Trip;
 import uo.sdi.model.User;
 import uo.sdi.model.UserStatus;
 import uo.sdi.persistence.PersistenceFactory;
+import uo.sdi.persistence.TripDao;
 import uo.sdi.persistence.UserDao;
 
 @ManagedBean(name = "usuarios")
@@ -24,10 +25,14 @@ public class BeanUsuario implements Serializable {
 	private String login;
 	private String pass;
 	
-	private List<Trip> listaPromotor = null;
+	private List<Trip> listaPromotor = new ArrayList<Trip>();
+	private List<Trip> listaUsuarios = new ArrayList<Trip>();
+	private List<Trip> listaApuntados = new ArrayList<Trip>();
+	private Trip viaje = new Trip();
+
+	
 
 	public BeanUsuario() {
-		listaPromotor = new ArrayList<Trip>();
 	}
 
 	public User getUsuario() {
@@ -61,7 +66,39 @@ public class BeanUsuario implements Serializable {
 	public void setPass(String pass) {
 		this.pass = pass;
 	}
+	
+	public List<Trip> getListaPromotor() {
+		return listaPromotor;
+	}
 
+	public void setListaPromotor(List<Trip> listaPromotor) {
+		this.listaPromotor = listaPromotor;
+	}
+
+	public List<Trip> getListaUsuarios() {
+		return listaUsuarios;
+	}
+
+	public void setListaUsuarios(List<Trip> listaUsuarios) {
+		this.listaUsuarios = listaUsuarios;
+	}
+
+	public List<Trip> getListaApuntados() {
+		return listaApuntados;
+	}
+
+	public void setListaApuntados(List<Trip> listaApuntados) {
+		this.listaApuntados = listaApuntados;
+	}
+
+	public Trip getViaje() {
+		return viaje;
+	}
+
+	public void setViaje(Trip viaje) {
+		this.viaje = viaje;
+	}
+	
 	/**
 	 * Este método comprueba que los datos de inicio  sean correctos y carga los datos
 	 * necesarios para la vista principal (lista de viajes sin los viajes que promueve
@@ -78,24 +115,20 @@ public class BeanUsuario implements Serializable {
 						usuario.getLogin());
 				usuario = userByLogin;
 				rellenarListas();
-				listarPromotor();
 				return "exito";
 			}
 		}
 		return "fracaso";
 	}
 	
-	public void listarPromotor(){
-		for(Trip t : bv.getViajesPromotor()){
-			listaPromotor.add(t);
-		}
-	}
-	
 	public String rellenarListas(){
 		try{
 			bv.listaViajePromotor(usuario.getId());
+			setListaPromotor(bv.getViajesPromotor());
 			bv.listaViajeUsuario(usuario.getId());
+			setListaUsuarios(bv.getViajesUsuario());
 			bv.listaViajeApuntado(usuario.getId());
+			setListaApuntados(bv.getViajesApuntados());
 			return "exito";
 		}catch(NullPointerException e){
 			return "fracaso";
@@ -120,6 +153,26 @@ public class BeanUsuario implements Serializable {
 		setUsuario(new User());
 		pass = "";
 		login = "";
+	}
+	
+	/**
+	 * Introduce a la BD el viaje con los datos proporcionados
+	 * @return exito si se introdujo adecuadamente y fracaso si hubo algún error
+	 */
+	public String crearViaje() {
+		TripDao dao = PersistenceFactory.newTripDao();
+		try {
+			dao.save(viaje);
+			Log.info("El viaje [%s] ha sido creado satisfactoriamente",
+					viaje.getDeparture().getCity()+"-"+viaje.getDestination().getCity());
+			setViaje(new Trip());
+			return "exito";
+		} catch (Exception e) {
+			Log.error("Ha ocurrido algo creando el viaje [%s]",
+					viaje.getDeparture().getCity()+"-"+viaje.getDestination().getCity());
+			setViaje(new Trip());
+			return "fracaso";
+		}
 	}
 
 	/**

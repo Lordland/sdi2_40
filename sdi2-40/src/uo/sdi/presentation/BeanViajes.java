@@ -86,6 +86,13 @@ public class BeanViajes implements Serializable {
 	public void cancelaViaje() {
 		viaje.setStatus(TripStatus.CANCELLED);
 	}
+	
+	/**
+	 * Vuelve a dejar disponible un viaje ya existente que habia sido cancelado
+	 */
+	public void abreViaje() {
+		viaje.setStatus(TripStatus.OPEN);
+	}
 
 	/**
 	 * Lista todos los viajes existentes en la BD
