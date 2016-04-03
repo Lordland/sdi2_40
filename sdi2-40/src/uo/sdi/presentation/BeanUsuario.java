@@ -1,6 +1,8 @@
 package uo.sdi.presentation;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.el.ELContext;
 import javax.el.ExpressionFactory;
@@ -12,6 +14,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
 
 import alb.util.log.Log;
+import uo.sdi.model.TripStatus;
 import uo.sdi.model.User;
 import uo.sdi.model.UserStatus;
 import uo.sdi.persistence.PersistenceFactory;
@@ -45,7 +48,7 @@ public class BeanUsuario implements Serializable {
 			ba = (BeanApplication) ve.getValue(contextoEL);
 		}
 	}
-
+	
 	public BeanViajes getBv() {
 		return bv;
 	}

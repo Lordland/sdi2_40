@@ -37,6 +37,7 @@ public class ListaApuntados {
 	public PeticionEstado getRelacionViaje() {
 		return relacionViaje;
 	}
+	
 	public void setRelacionViaje() {
 		if(usuario.getId().equals(viaje.getPromoterId()))
 			this.relacionViaje = PeticionEstado.PROMOTER;

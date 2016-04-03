@@ -87,7 +87,6 @@
 	<h:form>
 		<p:dataTable var="apuntado" styleClass="formTable"
 			value="#{apuntados.listaApuntadosPromotor}" border="1" style="margin: 0 auto;">
-			style="margin: 0 auto;">
 			<p:column>
 				<f:facet name="header">Usuario</f:facet>#{apuntado.usuario.login}</p:column>
 			<p:column>
@@ -97,7 +96,20 @@
 			<p:column>
 				<f:facet name="header">Fecha de salida</f:facet>#{apuntado.viaje.departureDate}</p:column>
 			<p:column>
-				<f:facet name="header">Estado</f:facet>#{apuntado.relacionViaje}</p:column>			
+				<f:facet name="header">Estado</f:facet>#{apuntado.relacionViaje}</p:column>
+				
+			<p:column exportable="false" rendered="#{apuntado.relacionViaje == 'PENDANT' 
+			|| apuntado.relacionViaje == 'CANCELLED' }">
+				<p:commandLink value="ACEPTAR" action="#{apuntados.aceptar}" immediate="true" update="form">
+  					<f:setPropertyActionListener value="true" target="#{apuntados.renderIframeColumn}"/>
+				</p:commandLink>
+			</p:column>	
+			<p:column exportable="false" rendered="#{apuntado.relacionViaje == 'ACCEPTED' 
+			|| apuntado.relacionViaje == 'NO_SEAT'}">
+				<p:commandLink value= "RECHAZAR" action="#{apuntados.cancelar}" immediate="true" update="form">
+  					<f:setPropertyActionListener value="true" target="#{apuntados.renderIframeColumn}"/>
+				</p:commandLink>
+			</p:column>			
 		</p:dataTable>
 	</h:form>
 </h:body>

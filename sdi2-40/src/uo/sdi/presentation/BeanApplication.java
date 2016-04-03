@@ -11,8 +11,12 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
 
+
+
+
 import uo.sdi.model.ListaApuntados;
 import uo.sdi.model.Seat;
+import uo.sdi.model.SeatStatus;
 import uo.sdi.model.Trip;
 import uo.sdi.model.User;
 import uo.sdi.persistence.ApplicationDao;
@@ -27,6 +31,8 @@ public class BeanApplication {
 
 	List<ListaApuntados> listaApuntadosPromotor;
 	ListaApuntados apuntado;
+	
+	private boolean renderIframeColumn;
 
 	public BeanApplication() {
 		if (bv == null) {
@@ -43,6 +49,33 @@ public class BeanApplication {
 		apuntado = new ListaApuntados();
 	}
 
+	
+	public void aceptar(){
+		Seat s = new Seat();
+		s.setStatus(SeatStatus.ACCEPTED);
+		apuntado.setAsiento(s);
+		apuntado.setRelacionViaje();
+		apuntado.getViaje().setAvailablePax(apuntado.getViaje().getAvailablePax()-1);
+	}
+	
+	public void cancelar(){
+		Seat s = apuntado.getAsiento();
+		s.setStatus(SeatStatus.EXCLUDED);
+		apuntado.setAsiento(s);
+		apuntado.setRelacionViaje();
+		apuntado.getViaje().setAvailablePax(apuntado.getViaje().getAvailablePax()+1);
+	}
+	
+	
+	
+	public boolean isRenderIframeColumn() {
+		return renderIframeColumn;
+	}
+
+	public void setRenderIframeColumn(boolean renderIframeColumn) {
+		this.renderIframeColumn = renderIframeColumn;
+	}
+	
 	public ListaApuntados getApuntado() {
 		return apuntado;
 	}
