@@ -24,36 +24,37 @@
 			</p:submenu>
 		</p:menubar>
 	</h:form>
-	<p:dataTable var="viaje" styleClass="formTable"
-		value="#{viajes.viajesUsuario}" border="1" style="margin: 0 auto;">
-		<p:column>
-			<f:facet name="header">Salida</f:facet>#{viaje.departure.city}</p:column>
-		<p:column>
-			<f:facet name="header">Destino</f:facet>#{viaje.destination.city}</p:column>
-		<p:column>
-			<f:facet name="header">Fecha de llegada</f:facet>#{viaje.arrivalDate}</p:column>
-		<p:column>
-			<f:facet name="header">Fecha de salida</f:facet>#{viaje.departureDate}</p:column>
-		<p:column>
-			<f:facet name="header">Fecha de cierre</f:facet>#{viaje.closingDate}</p:column>
-		<p:column>
-			<f:facet name="header">Plazas disponibles</f:facet>#{viaje.availablePax}</p:column>
-		<p:column>
-			<f:facet name="header">Plazas Máximas</f:facet>#{viaje.maxPax}</p:column>
-		<p:column>
-			<f:facet name="header">Precio aproximado</f:facet>#{viaje.estimatedCost}</p:column>
-		<p:column>
-			<f:facet name="header">Estado</f:facet>#{viaje.status}</p:column>
-		<p:column>
-			<f:facet name="header">Apuntarse</f:facet>
-			<p:commandLink action="#{apuntados.apuntarse(usuarios.usuario)}"
-				type="submit" value="APUNTARSE" immediate="true" update=":form">
-				<f:setPropertyActionListener target="#{viajes.viaje}"
-					value="#{viaje}" />
-			</p:commandLink>
-		</p:column>
-	</p:dataTable>
 	<h:form id="form">
+		<p:dataTable var="viaje" styleClass="formTable"
+			value="#{viajes.viajesUsuario}" border="1" style="margin: 0 auto;">
+			<p:column>
+				<f:facet name="header">Salida</f:facet>#{viaje.departure.city}</p:column>
+			<p:column>
+				<f:facet name="header">Destino</f:facet>#{viaje.destination.city}</p:column>
+			<p:column>
+				<f:facet name="header">Fecha de llegada</f:facet>#{viaje.arrivalDate}</p:column>
+			<p:column>
+				<f:facet name="header">Fecha de salida</f:facet>#{viaje.departureDate}</p:column>
+			<p:column>
+				<f:facet name="header">Fecha de cierre</f:facet>#{viaje.closingDate}</p:column>
+			<p:column>
+				<f:facet name="header">Plazas disponibles</f:facet>#{viaje.availablePax}</p:column>
+			<p:column>
+				<f:facet name="header">Plazas Máximas</f:facet>#{viaje.maxPax}</p:column>
+			<p:column>
+				<f:facet name="header">Precio aproximado</f:facet>#{viaje.estimatedCost}</p:column>
+			<p:column>
+				<f:facet name="header">Estado</f:facet>#{viaje.status}</p:column>
+			<p:column>
+				<f:facet name="header">Apuntarse</f:facet>
+				<p:commandLink action="#{apuntados.apuntarse(usuarios.usuario)}"
+					type="submit" value="APUNTARSE" immediate="true" update=":form">
+					<f:setPropertyActionListener target="#{viajes.viaje}"
+						value="#{viaje}" />
+				</p:commandLink>
+			</p:column>
+		</p:dataTable>
+
 		<p:dataTable var="apuntado" styleClass="formTable"
 			value="#{apuntados.listaApuntadosUsuario}" border="1"
 			style="margin: 0 auto;">

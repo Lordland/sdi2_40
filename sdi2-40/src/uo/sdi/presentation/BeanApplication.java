@@ -11,16 +11,16 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
 
-
-
-
 import uo.sdi.model.ListaApuntados;
+import uo.sdi.model.ListaApuntados.PeticionEstado;
 import uo.sdi.model.Seat;
 import uo.sdi.model.SeatStatus;
 import uo.sdi.model.Trip;
 import uo.sdi.model.User;
 import uo.sdi.persistence.ApplicationDao;
 import uo.sdi.persistence.PersistenceFactory;
+import uo.sdi.persistence.SeatDao;
+import uo.sdi.persistence.TripDao;
 
 @ManagedBean(name = "apuntados")
 public class BeanApplication {
@@ -31,7 +31,7 @@ public class BeanApplication {
 
 	List<ListaApuntados> listaApuntadosPromotor;
 	ListaApuntados apuntado;
-	
+
 	private boolean renderIframeColumn;
 
 	public BeanApplication() {
@@ -49,25 +49,6 @@ public class BeanApplication {
 		apuntado = new ListaApuntados();
 	}
 
-	
-	public void aceptar(){
-		Seat s = new Seat();
-		s.setStatus(SeatStatus.ACCEPTED);
-		apuntado.setAsiento(s);
-		apuntado.setRelacionViaje();
-		apuntado.getViaje().setAvailablePax(apuntado.getViaje().getAvailablePax()-1);
-	}
-	
-	public void cancelar(){
-		Seat s = apuntado.getAsiento();
-		s.setStatus(SeatStatus.EXCLUDED);
-		apuntado.setAsiento(s);
-		apuntado.setRelacionViaje();
-		apuntado.getViaje().setAvailablePax(apuntado.getViaje().getAvailablePax()+1);
-	}
-	
-	
-	
 	public boolean isRenderIframeColumn() {
 		return renderIframeColumn;
 	}
@@ -75,7 +56,7 @@ public class BeanApplication {
 	public void setRenderIframeColumn(boolean renderIframeColumn) {
 		this.renderIframeColumn = renderIframeColumn;
 	}
-	
+
 	public ListaApuntados getApuntado() {
 		return apuntado;
 	}
@@ -100,6 +81,62 @@ public class BeanApplication {
 	public void setListaApuntadosPromotor(
 			List<ListaApuntados> listaApuntadosPromotor) {
 		this.listaApuntadosPromotor = listaApuntadosPromotor;
+	}
+
+	public void aceptar() {
+		Seat s = new Seat();
+		SeatDao sd = PersistenceFactory.newSeatDao();
+		TripDao td = PersistenceFactory.newTripDao();
+		// Añadido en BD
+		Long ids[] = { apuntado.getUsuario().getId(),
+				apuntado.getViaje().getId() };
+		Seat seat = sd.findById(ids);
+		if (seat == null) {
+			s.setStatus(SeatStatus.ACCEPTED);
+			s.setTripId(apuntado.getViaje().getId());
+			s.setUserId(apuntado.getUsuario().getId());
+			sd.save(s);
+		} else {
+			seat.setStatus(SeatStatus.ACCEPTED);
+			sd.update(seat);
+		}
+		apuntado.getViaje().setAvailablePax(
+				apuntado.getViaje().getAvailablePax() - 1);
+		td.update(apuntado.getViaje());
+		// Actualizacion interfaz
+		bv.listaViaje();
+		for (ListaApuntados ap : listaApuntadosPromotor) {
+			if (ap.equals(apuntado)) {
+				if (ap.getAsiento() == null)
+					ap.setAsiento(s);
+				else
+					ap.setAsiento(seat);
+				ap.setRelacionViaje();
+			}
+		}
+
+	}
+
+	public void cancelar() {
+		// Insercion en BD
+		SeatDao sd = PersistenceFactory.newSeatDao();
+		TripDao td = PersistenceFactory.newTripDao();
+		Long ids[] = { apuntado.getUsuario().getId(),
+				apuntado.getViaje().getId() };
+		Seat s = sd.findById(ids);
+		s.setStatus(SeatStatus.EXCLUDED);
+		sd.update(s);
+		apuntado.getViaje().setAvailablePax(
+				apuntado.getViaje().getAvailablePax() + 1);
+		td.update(apuntado.getViaje());
+		// Actualizacion interfaz
+		bv.listaViaje();
+		for (ListaApuntados ap : listaApuntadosPromotor) {
+			if (ap.equals(apuntado)) {
+				ap.setAsiento(s);
+				ap.setRelacionViaje();
+			}
+		}
 	}
 
 	public void apuntarse(User usuario) {
@@ -134,14 +171,25 @@ public class BeanApplication {
 	public void desapuntarse() {
 		// Borrado de la BD
 		ApplicationDao ad = PersistenceFactory.newApplicationDao();
+		TripDao td = PersistenceFactory.newTripDao();
+		SeatDao sd = PersistenceFactory.newSeatDao();
 		Long[] ids = { apuntado.getUsuario().getId(),
 				apuntado.getViaje().getId() };
 		int borrado = ad.delete(ids);
+		if(apuntado.getRelacionViaje().equals(PeticionEstado.ACCEPTED)){
+			apuntado.getViaje().setAvailablePax(apuntado.getViaje().getAvailablePax() +1 );
+			td.update(apuntado.getViaje());
+		}
+		if(apuntado.getAsiento() != null){
+			sd.delete(ids);
+		}
+		
 		// Actualizacion de la lista
 		if (borrado > 0) {
 			if (listaApuntadosUsuario.contains(apuntado))
 				listaApuntadosUsuario.remove(apuntado);
 		}
+		bv.listaViajeUsuario(apuntado.getUsuario().getId());
 
 	}
 
@@ -173,8 +221,8 @@ public class BeanApplication {
 
 	public void listaApuntadosPromotor() {
 		listaApuntadosPromotor = new ArrayList<ListaApuntados>();
-		List<uo.sdi.model.Application> reservas = PersistenceFactory.newApplicationDao()
-				.findAll();
+		List<uo.sdi.model.Application> reservas = PersistenceFactory
+				.newApplicationDao().findAll();
 		List<Seat> asientos = PersistenceFactory.newSeatDao().findAll();
 		for (Trip t : bv.getViajesPromotor()) {
 			for (uo.sdi.model.Application ap : reservas) {
@@ -195,8 +243,8 @@ public class BeanApplication {
 			}
 		}
 	}
-	
-	public String vistaPromotor(){
+
+	public String vistaPromotor() {
 		listaApuntadosPromotor();
 		return "promotor";
 	}
