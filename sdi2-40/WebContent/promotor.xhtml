@@ -14,7 +14,8 @@
 			<p:menuitem value="ShareMyTrip">
 			</p:menuitem>
 			<p:submenu label="Gestion de viajes">
-				<p:menuitem value="Crear viaje" action="crearViaje">
+				<p:menuitem value="Crear viaje" action="crearViaje"
+					actionListener="#{viajes.iniciaViaje}">
 				</p:menuitem>
 			</p:submenu>
 			<p:submenu label="Gestion de Usuarios">
@@ -83,32 +84,21 @@
 	
 	Peticiones para apuntarse a sus viajes:
 	<br></br>
-	<p:dataTable var="viaje" styleClass="formTable"
-		value="#{viajes.viajesApuntados}" border="1" style="margin: 0 auto;">
-		<p:column>
-			<f:facet name="header">Salida</f:facet>#{viaje.departure.city}</p:column>
-		<p:column>
-			<f:facet name="header">Destino</f:facet>#{viaje.destination.city}</p:column>
-		<p:column>
-			<f:facet name="header">Fecha de llegada</f:facet>#{viaje.arrivalDate}</p:column>
-		<p:column>
-			<f:facet name="header">Fecha de salida</f:facet>#{viaje.departureDate}</p:column>
-		<p:column>
-			<f:facet name="header">Fecha de cierre</f:facet>#{viaje.closingDate}</p:column>
-		<p:column>
-			<f:facet name="header">Plazas disponibles</f:facet>#{viaje.availablePax}</p:column>
-		<p:column>
-			<f:facet name="header">Plazas Máximas</f:facet>#{viaje.maxPax}</p:column>
-		<p:column>
-			<f:facet name="header">Precio aproximado</f:facet>#{viaje.estimatedCost}</p:column>
-		<p:column>
-			<f:facet name="header">Estado</f:facet>#{viaje.status}</p:column>
-		<p:column>
-			<f:facet name="header">Cancelar</f:facet>
-			<p:commandLink action="#{usuarios.cancelar}" type="submit"
-				value="CANCELAR" immediate="true">
-			</p:commandLink>
-		</p:column>
-	</p:dataTable>
+	<h:form>
+		<p:dataTable var="apuntado" styleClass="formTable"
+			value="#{apuntados.listaApuntadosPromotor}" border="1" style="margin: 0 auto;">
+			style="margin: 0 auto;">
+			<p:column>
+				<f:facet name="header">Usuario</f:facet>#{apuntado.usuario.login}</p:column>
+			<p:column>
+				<f:facet name="header">Salida</f:facet>#{apuntado.viaje.departure.city}</p:column>
+			<p:column>
+				<f:facet name="header">Destino</f:facet>#{apuntado.viaje.destination.city}</p:column>
+			<p:column>
+				<f:facet name="header">Fecha de salida</f:facet>#{apuntado.viaje.departureDate}</p:column>
+			<p:column>
+				<f:facet name="header">Estado</f:facet>#{apuntado.relacionViaje}</p:column>			
+		</p:dataTable>
+	</h:form>
 </h:body>
 </html>
