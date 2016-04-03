@@ -32,13 +32,18 @@ public class BeanUsuario implements Serializable {
 	private String pass;
 
 	public BeanUsuario() {
-		FacesContext context = FacesContext.getCurrentInstance();
-		ELContext contextoEL = context.getELContext();
-		Application apli = context.getApplication();
-		ExpressionFactory ef = apli.getExpressionFactory();
-		ValueExpression ve = ef.createValueExpression(contextoEL, "#{viajes}",
-				BeanViajes.class);
-		bv = (BeanViajes) ve.getValue(contextoEL);
+		if (bv == null && ba == null) {
+			FacesContext context = FacesContext.getCurrentInstance();
+			ELContext contextoEL = context.getELContext();
+			Application apli = context.getApplication();
+			ExpressionFactory ef = apli.getExpressionFactory();
+			ValueExpression ve = ef.createValueExpression(contextoEL,
+					"#{viajes}", BeanViajes.class);
+			bv = (BeanViajes) ve.getValue(contextoEL);
+			ve = ef.createValueExpression(contextoEL, "#{apuntados}",
+					BeanApplication.class);
+			ba = (BeanApplication) ve.getValue(contextoEL);
+		}
 	}
 
 	public BeanViajes getBv() {
@@ -105,6 +110,7 @@ public class BeanUsuario implements Serializable {
 				Log.info("El usuario [%s] ha iniciado sesión",
 						usuario.getLogin());
 				usuario = userByLogin;
+				rellenarListas();
 				return "exito";
 			}
 		}
@@ -115,7 +121,8 @@ public class BeanUsuario implements Serializable {
 		try {
 			bv.listaViajePromotor(usuario.getId());
 			bv.listaViajeUsuario(usuario.getId());
-			ba.listaApuntadosUsuario(usuario.getId());
+			ba.listaApuntadosUsuario(usuario);
+			ba.listaApuntadosPromotor();
 			return "exito";
 		} catch (NullPointerException e) {
 			return "fracaso";

@@ -14,18 +14,19 @@
 			</p:menuitem>
 			<p:submenu label="Gestión de usuarios">
 				<p:menuitem value="Cerrar sesión" action="cerrar"
-					actionListener="#{usuarios.cerrarSesion}" ajax = "false">
+					actionListener="#{usuarios.cerrarSesion}" ajax="false">
 				</p:menuitem>
 				<p:menuitem value="Modificar usuario" action="modificar">
 				</p:menuitem>
-				<p:menuitem value="Promotor" action="promotor">
+				<p:menuitem value="Promotor" action="promotor"
+					actionListener="#{apuntados.vistaPromotor}">
 				</p:menuitem>
 			</p:submenu>
 		</p:menubar>
 	</h:form>
 	<p:dataTable var="viaje" styleClass="formTable"
 		value="#{viajes.viajes}" border="1" style="margin: 0 auto;">
-			<p:column>
+		<p:column>
 			<f:facet name="header">Salida</f:facet>#{viaje.departure.city}</p:column>
 		<p:column>
 			<f:facet name="header">Destino</f:facet>#{viaje.destination.city}</p:column>
@@ -45,16 +46,17 @@
 			<f:facet name="header">Estado</f:facet>#{viaje.status}</p:column>
 		<p:column>
 			<f:facet name="header">Apuntarse</f:facet>
-			<p:commandLink action="#{apuntados.apuntarse}" type="submit"
-				value="APUNTARSE" immediate="true" update = ":form">
+			<p:commandLink action="#{apuntados.apuntarse(usuarios.usuario)}"
+				type="submit" value="APUNTARSE" immediate="true" update=":form">
 				<f:setPropertyActionListener target="#{viajes.viaje}"
 					value="#{viaje}" />
 			</p:commandLink>
 		</p:column>
 	</p:dataTable>
-	<h:form id = "form">
+	<h:form id="form">
 		<p:dataTable var="apuntado" styleClass="formTable"
-			value="#{apuntados.listaApuntadosUsuario}" border="1" style="margin: 0 auto;">
+			value="#{apuntados.listaApuntadosUsuario}" border="1"
+			style="margin: 0 auto;">
 			style="margin: 0 auto;">
 			<p:column>
 				<f:facet name="header">Salida</f:facet>#{apuntado.viaje.departure.city}</p:column>
@@ -63,11 +65,11 @@
 			<p:column>
 				<f:facet name="header">Fecha de salida</f:facet>#{apuntado.viaje.departureDate}</p:column>
 			<p:column>
-				<f:facet name="header">Estado</f:facet>#{apuntado.relacionViaje}</p:column>			
+				<f:facet name="header">Estado</f:facet>#{apuntado.relacionViaje}</p:column>
 			<p:column>
 				<f:facet name="header">Apuntarse</f:facet>
 				<p:commandLink action="#{apuntados.desapuntarse}" type="submit"
-					value="DESAPUNTARSE" immediate="true" update = ":form">
+					value="DESAPUNTARSE" immediate="true" update=":form">
 					<f:setPropertyActionListener target="#{apuntados.apuntado}"
 						value="#{apuntado}" />
 				</p:commandLink>
