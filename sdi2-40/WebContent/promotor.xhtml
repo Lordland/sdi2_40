@@ -36,8 +36,7 @@
 			value="#{viajes.viajesPromotor}" border="1" style="margin: 0 auto;"
 			editable="true">
 			<p:ajax event="rowEdit" listener="#{viajes.actualizar}" />
-			<p:ajax event="rowEditCancel"
-				listener="#{viajes.cancelarActualizar}" />
+			<p:ajax event="rowEditCancel" listener="#{viajes.cancelarActualizar}" />
 			<p:column>
 				<f:facet name="header">Salida</f:facet>#{viaje.departure.city}</p:column>
 			<p:column>
@@ -55,10 +54,13 @@
 			<p:column>
 				<f:facet name="header">Precio aproximado</f:facet>#{viaje.estimatedCost}</p:column>
 			<p:column>
-			<f:facet name="header">Modificar</f:facet>
-			<h:commandLink action="modificarViaje" type="submit" value="MODIFICAR" immediate="true">
-     			<f:setPropertyActionListener target="#{viajes.viaje}" value="#{viaje}"/>
-  			</h:commandLink></p:column>
+				<f:facet name="header">Modificar</f:facet>
+				<h:commandLink action="modificarViaje" type="submit"
+					value="MODIFICAR" immediate="true">
+					<f:setPropertyActionListener target="#{viajes.viaje}"
+						value="#{viaje}" />
+				</h:commandLink>
+			</p:column>
 			<p:column>
 				<f:facet name="header">Estado</f:facet>
 				<p:cellEditor>
@@ -86,8 +88,11 @@
 	<br></br>
 	<h:form>
 		<p:dataTable var="apuntado" styleClass="formTable"
-			value="#{apuntados.listaApuntadosPromotor}" border="1" style="margin: 0 auto;">
+			value="#{apuntados.listaApuntadosPromotor}" border="1"
+			style="margin: 0 auto;" editable="true" editMode="cell" widgetVar = "cell">
 			style="margin: 0 auto;">
+			
+			<p:ajax event="cellEdit" listener="#{apuntados.modifica}"/>
 			<p:column>
 				<f:facet name="header">Usuario</f:facet>#{apuntado.usuario.login}</p:column>
 			<p:column>
@@ -97,7 +102,19 @@
 			<p:column>
 				<f:facet name="header">Fecha de salida</f:facet>#{apuntado.viaje.departureDate}</p:column>
 			<p:column>
-				<f:facet name="header">Estado</f:facet>#{apuntado.relacionViaje}</p:column>			
+				<f:facet name="header">Estado</f:facet>
+				<p:cellEditor>
+					<f:facet name="output">
+					#{apuntado.relacionViaje}
+				</f:facet>
+					<f:facet name="input">
+						<h:selectOneMenu value="#{apuntado.relacionViaje}" style="width:100%">
+							<f:selectItems value="#{apuntados.posibilidades}" var="state"
+								itemLabel="#{status}" itemValue="#{status}" />
+						</h:selectOneMenu>
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
 		</p:dataTable>
 	</h:form>
 </h:body>

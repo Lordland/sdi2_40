@@ -11,6 +11,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
 
+import org.primefaces.event.CellEditEvent;
+
 import uo.sdi.model.ListaApuntados;
 import uo.sdi.model.Seat;
 import uo.sdi.model.Trip;
@@ -27,6 +29,7 @@ public class BeanApplication {
 
 	List<ListaApuntados> listaApuntadosPromotor;
 	ListaApuntados apuntado;
+	String[] posibilidades = {"ACEPTAR" , "RECHAZAR"};
 
 	public BeanApplication() {
 		if (bv == null) {
@@ -49,6 +52,15 @@ public class BeanApplication {
 
 	public void setApuntado(ListaApuntados apuntado) {
 		this.apuntado = apuntado;
+	}
+
+	
+	public String[] getPosibilidades() {
+		return posibilidades;
+	}
+
+	public void setPosibilidades(String[] posibilidades) {
+		this.posibilidades = posibilidades;
 	}
 
 	public List<ListaApuntados> getListaApuntadosUsuario() {
@@ -166,5 +178,9 @@ public class BeanApplication {
 	public String vistaPromotor(){
 		listaApuntadosPromotor();
 		return "promotor";
+	}
+	
+	public void modifica(CellEditEvent event){
+		
 	}
 }
