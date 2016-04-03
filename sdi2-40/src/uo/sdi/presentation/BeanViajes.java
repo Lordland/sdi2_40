@@ -109,7 +109,9 @@ public class BeanViajes implements Serializable {
 		Trip v = (Trip) event.getObject();
 		TripDao td = PersistenceFactory.newTripDao();
 		td.update(v);
-	} void cancelarActualizar(RowEditEvent event){
+	} 
+	
+	public void cancelarActualizar(RowEditEvent event){
 		
 	}
 	/**
@@ -163,7 +165,5 @@ public class BeanViajes implements Serializable {
 	public void setEstado(TripStatus estado) {
 		this.estado = estado;
 	}
-
-	
 
 }
