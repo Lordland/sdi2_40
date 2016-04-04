@@ -14,7 +14,7 @@ import javax.faces.context.FacesContext;
 
 import alb.util.log.Log;
 import uo.sdi.model.User;
-import uo.sdi.model.UserStatus;
+import uo.sdi.model.UserStatus; 
 import uo.sdi.persistence.PersistenceFactory;
 import uo.sdi.persistence.TripDao;
 import uo.sdi.persistence.UserDao; 
