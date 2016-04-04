@@ -21,15 +21,21 @@
 			<center>
 				<h1>Inicio de sesión</h1>
 			</center>
-			<p:panelGrid columns="2" styleClass="formTable"
+			<p:panelGrid id = "grid" columns="3" cellPadding = "5"
 				style="margin: 0 auto;">
-				USUARIO: 
-				<p:inputText type="text" value="#{usuarios.login}"></p:inputText>
-				CONTRASEÑA:
-				<p:inputText type="password" required = "true" value="#{usuarios.pass}"></p:inputText>
+				<p:outputLabel for="user" value="Usuario:" />
+				<p:inputText id="user" type="text" value="#{usuarios.login}"
+					required="true"></p:inputText>
+				<p:message for="user" />
+
+				<p:outputLabel for="pass" value="Contraseña:" />
+				<p:inputText id="pass" type="password" required="true"
+					value="#{usuarios.pass}"></p:inputText>
+				<p:message for="pass" />
+
 			</p:panelGrid>
 			<div align="center">
-				<p:commandButton value="Enviar" action="#{usuarios.iniciarSesion}" >
+				<p:commandButton value="Enviar" action="#{usuarios.iniciarSesion}" update = "grid">
 				</p:commandButton>
 			</div>
 
