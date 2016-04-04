@@ -24,7 +24,7 @@
 		<navigation-case>
 			<from-action>#{usuarios.iniciarSesion}</from-action>
 			<from-outcome>exito</from-outcome>
-			<to-view-id>/principal.xhtml</to-view-id>
+			<to-view-id>/restricted/principal.xhtml</to-view-id>
 		</navigation-case>
 		<navigation-case>
 			<from-action>#{usuarios.iniciarSesion}</from-action>
@@ -76,17 +76,17 @@
 		<from-view-id>/promotor.xhtml</from-view-id>
 		<navigation-case>
 			<from-outcome>principal</from-outcome>
-			<to-view-id>/principal.xhtml</to-view-id>
+			<to-view-id>/restricted/principal.xhtml</to-view-id>
 		</navigation-case>
 		<navigation-case>
 			<from-action>#{usuarios.crearViaje}</from-action>
 			<from-outcome>exito</from-outcome>
-			<to-view-id>/promotor.xhtml</to-view-id>
+			<to-view-id>/restricted/promotor.xhtml</to-view-id>
 		</navigation-case>
 		<navigation-case>
 			<from-action>#{usuarios.crearViaje}</from-action>
 			<from-outcome>fracaso</from-outcome>
-			<to-view-id>/promotor.xhtml</to-view-id>
+			<to-view-id>/restricted/promotor.xhtml</to-view-id>
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>cerrar</from-outcome>
@@ -98,25 +98,25 @@
 		<from-view-id>/crearViaje.xhtml</from-view-id>
 		<navigation-case>
 			<from-outcome>promotor</from-outcome>
-			<to-view-id>/promotor.xhtml</to-view-id>
+			<to-view-id>/restricted/promotor.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>
 	<navigation-rule>
 		<display-name>modificar.xhtml</display-name>
-		<from-view-id>/modificar.xhtml</from-view-id>
+		<from-view-id>/restricted/modificar.xhtml</from-view-id>
 		<navigation-case>
 			<from-outcome>principal</from-outcome>
-			<to-view-id>/principal.xhtml</to-view-id>
+			<to-view-id>/restricted/principal.xhtml</to-view-id>
 		</navigation-case>
 		<navigation-case>
 			<from-action>#{usuarios.modificarUsuario}</from-action>
 			<from-outcome>exito</from-outcome>
-			<to-view-id>/principal.xhtml</to-view-id>
+			<to-view-id>/restricted/principal.xhtml</to-view-id>
 		</navigation-case>
 		<navigation-case>
 			<from-action>#{usuarios.modificarUsuario}</from-action>
 			<from-outcome>fracaso</from-outcome>
-			<to-view-id>/modificar.xhtml</to-view-id>
+			<to-view-id>/restricted/modificar.xhtml</to-view-id>
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>cerrar</from-outcome>

@@ -45,7 +45,7 @@ public class BeanUsuario implements Serializable {
 			ba = (BeanApplication) ve.getValue(contextoEL);
 		}
 	}
-
+	
 	public BeanViajes getBv() {
 		return bv;
 	}
