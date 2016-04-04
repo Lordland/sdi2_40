@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <pageflow:Pageflow xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pageflow="http://www.sybase.com/suade/pageflow" id="pf14584727283110" configfile="/sdi2-40/WebContent/WEB-INF/faces-config.xml">
-  <nodes xsi:type="pageflow:PFPage" name="login.xhtml" x="657" y="540" width="85" height="73" id="pf14584880978810" referenceLink="//@navigationRule.5/@navigationCase.3/@toViewId|" outlinks="pf14584931972430 pf14596252830970 pf14597882034180" inlinks="pf14584931972431 pf14584931972432 pf14596252830970 pf14597882034193 pf14597934059870 pf14597934059871" path="/login.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="login.xhtml" x="657" y="540" width="85" height="73" id="pf14584880978810" referenceLink="//@navigationRule.2/@navigationCase.0/@toViewId|" outlinks="pf14584931972430 pf14596252830970 pf14597882034180" inlinks="pf14584931972431 pf14584931972432 pf14596252830970 pf14597882034193 pf145979398564322 pf145979398564323" path="/login.xhtml"/>
   <nodes xsi:type="pageflow:PFPage" name="registrarse.xhtml" x="288" y="324" width="109" height="121" id="pf14584931972433" referenceLink="//@navigationRule.1/@navigationCase.2/@toViewId|" outlinks="pf14584931972431 pf14584931972432 pf14596252830974" inlinks="pf14584931972430 pf14596252830974" path="/registrarse.xhtml"/>
-  <nodes xsi:type="pageflow:PFPage" name="principal.xhtml" x="770" y="988" id="pf14597882034194" referenceLink="//@navigationRule.5/@navigationCase.1/@toViewId|" inlinks="pf14597882034180 pf14597882034198 pf14597882034199 pf14597934059872" path="/restricted/principal.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="principal.xhtml" x="770" y="988" id="pf14597882034194" referenceLink="//@navigationRule.2/@fromViewId|" outlinks="pf145979398564323 pf145979398564324 pf145979398564325" inlinks="pf14597882034180 pf14597882034198 pf14597882034199 pf145979398564326" path="/restricted/principal.xhtml"/>
   <nodes xsi:type="pageflow:PFPage" name="modificar.xhtml" x="360" y="834" id="pf145978820341910" referenceLink="//@navigationRule.5/@fromViewId|" outlinks="pf14597882034193 pf14597882034198 pf14597882034199 pf145978820341911" inlinks="pf145978820341911" path="/restricted/modificar.xhtml"/>
-  <nodes xsi:type="pageflow:PFPage" name="promotor.xhtml" x="638" y="1128" id="pf145978820341912" referenceLink="//@navigationRule.4/@navigationCase.0/@toViewId|" inlinks="pf14597934059873 pf14597934059874 pf14597934059875" path="/restricted/promotor.xhtml"/>
-  <nodes xsi:type="pageflow:PFPage" name="crearViaje.xhtml" x="122" y="480" id="pf145978820341916" referenceLink="//@navigationRule.4/@fromViewId|" path="/restricted/crearViaje.xhtml"/>
-  <nodes xsi:type="pageflow:PFPage" name="principal.xhtml" x="122" y="764" id="pf14597934059876" referenceLink="//@navigationRule.2/@fromViewId|" outlinks="pf14597934059870 pf14597934059877 pf14597934059878" path="/principal.xhtml"/>
-  <nodes xsi:type="pageflow:PFPage" name="modificar.xhtml" x="60" y="588" id="pf14597934059879" referenceLink="//@navigationRule.2/@navigationCase.1/@toViewId|" inlinks="pf14597934059877" path="/modificar.xhtml"/>
-  <nodes xsi:type="pageflow:PFPage" name="promotor.xhtml" x="360" y="1128" id="pf145979340598710" referenceLink="//@navigationRule.3/@fromViewId|" outlinks="pf14597934059872 pf14597934059873 pf14597934059874 pf14597934059871" inlinks="pf14597934059878" path="/promotor.xhtml"/>
-  <nodes xsi:type="pageflow:PFPage" name="crearViaje.xhtml" x="888" y="1068" id="pf145979340598711" referenceLink="//@navigationRule.4/@fromViewId|" outlinks="pf14597934059875" path="/crearViaje.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="promotor.xhtml" x="638" y="1128" id="pf145978820341912" referenceLink="//@navigationRule.3/@fromViewId|" outlinks="pf145979398564326 pf145979398564327 pf145979398564328 pf145979398564322" inlinks="pf145979398564329 pf145979398564327 pf145979398564328" path="/restricted/promotor.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="crearViaje.xhtml" x="122" y="480" id="pf145978820341916" referenceLink="//@navigationRule.4/@fromViewId|" outlinks="pf145979398564329" path="/restricted/crearViaje.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="modificar.xhtml" id="pf145979398564330" referenceLink="//@navigationRule.2/@navigationCase.1/@toViewId|" inlinks="pf145979398564324" path="/modificar.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="promotor.xhtml" id="pf145979398564331" referenceLink="//@navigationRule.2/@navigationCase.2/@toViewId|" inlinks="pf145979398564325" path="/promotor.xhtml"/>
   <links id="pf14584931972430" target="pf14584931972433" source="pf14584880978810" outcome="registro"/>
   <links id="pf14584931972431" target="pf14584880978810" source="pf14584931972433" outcome="login"/>
   <links id="pf14584931972432" target="pf14584880978810" source="pf14584931972433" outcome="exito" fromaction="#{usuarios.crearUsuario}"/>
@@ -17,14 +15,6 @@
   <links id="pf14597882034193" target="pf14584880978810" source="pf145978820341910" outcome="cerrar"/>
   <links id="pf14597882034198" target="pf14597882034194" source="pf145978820341910" outcome="principal"/>
   <links id="pf14597882034199" target="pf14597882034194" source="pf145978820341910" outcome="exito" fromaction="#{usuarios.modificarUsuario}"/>
-  <links id="pf14597934059870" target="pf14584880978810" source="pf14597934059876" outcome="cerrar"/>
-  <links id="pf14597934059877" target="pf14597934059879" source="pf14597934059876" outcome="modificar"/>
-  <links id="pf14597934059878" target="pf145979340598710" source="pf14597934059876" outcome="promotor" fromaction="#{apuntados.vistaPromotor}"/>
-  <links id="pf14597934059872" target="pf14597882034194" source="pf145979340598710" outcome="principal"/>
-  <links id="pf14597934059873" target="pf145978820341912" source="pf145979340598710" outcome="exito" fromaction="#{usuarios.crearViaje}"/>
-  <links id="pf14597934059874" target="pf145978820341912" source="pf145979340598710" outcome="fracaso" fromaction="#{usuarios.crearViaje}"/>
-  <links id="pf14597934059871" target="pf14584880978810" source="pf145979340598710" outcome="cerrar"/>
-  <links id="pf14597934059875" target="pf145978820341912" source="pf145979340598711" outcome="promotor"/>
   <links id="pf14596252830970" target="pf14584880978810" source="pf14584880978810" outcome="fracaso" fromaction="#{usuarios.iniciarSesion}">
     <bendPoints d1Height="-36" d2Height="-36"/>
     <bendPoints d1Width="-64" d1Height="-36" d2Width="-64" d2Height="-36"/>
@@ -40,4 +30,12 @@
     <bendPoints d1Width="-64" d1Height="-36" d2Width="-64" d2Height="-36"/>
     <bendPoints d1Width="-64" d2Width="-64"/>
   </links>
+  <links id="pf145979398564329" target="pf145978820341912" source="pf145978820341916" outcome="promotor"/>
+  <links id="pf145979398564326" target="pf14597882034194" source="pf145978820341912" outcome="principal"/>
+  <links id="pf145979398564327" target="pf145978820341912" source="pf145978820341912" outcome="exito" fromaction="#{usuarios.crearViaje}"/>
+  <links id="pf145979398564328" target="pf145978820341912" source="pf145978820341912" outcome="fracaso" fromaction="#{usuarios.crearViaje}"/>
+  <links id="pf145979398564322" target="pf14584880978810" source="pf145978820341912" outcome="cerrar"/>
+  <links id="pf145979398564323" target="pf14584880978810" source="pf14597882034194" outcome="cerrar"/>
+  <links id="pf145979398564324" target="pf145979398564330" source="pf14597882034194" outcome="modificar"/>
+  <links id="pf145979398564325" target="pf145979398564331" source="pf14597882034194" outcome="promotor" fromaction="#{apuntados.vistaPromotor}"/>
 </pageflow:Pageflow>

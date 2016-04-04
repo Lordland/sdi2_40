@@ -56,7 +56,7 @@
 	</navigation-rule>
 	<navigation-rule>
 		<display-name>principal.xhtml</display-name>
-		<from-view-id>/principal.xhtml</from-view-id>
+		<from-view-id>/restricted/principal.xhtml</from-view-id>
 		<navigation-case>
 			<from-outcome>cerrar</from-outcome>
 			<to-view-id>/login.xhtml</to-view-id>
@@ -73,7 +73,7 @@
 	</navigation-rule>
 	<navigation-rule>
 		<display-name>promotor.xhtml</display-name>
-		<from-view-id>/promotor.xhtml</from-view-id>
+		<from-view-id>/restricted/promotor.xhtml</from-view-id>
 		<navigation-case>
 			<from-outcome>principal</from-outcome>
 			<to-view-id>/restricted/principal.xhtml</to-view-id>
@@ -95,7 +95,7 @@
 	</navigation-rule>
 	<navigation-rule>
 		<display-name>crearViaje.xhtml</display-name>
-		<from-view-id>/crearViaje.xhtml</from-view-id>
+		<from-view-id>/restricted/crearViaje.xhtml</from-view-id>
 		<navigation-case>
 			<from-outcome>promotor</from-outcome>
 			<to-view-id>/restricted/promotor.xhtml</to-view-id>
