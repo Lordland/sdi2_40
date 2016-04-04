@@ -5,7 +5,7 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 <h:head>
-	<title>Piloto de SDI</title>
+	<title>ShareMyTrip-Registro de usuario</title>
 </h:head>
 <h:body>
 	<h:form>
@@ -21,26 +21,43 @@
 	</center>
 	<br />
 	<br />
-<br />
+	<br />
 	<h:form>
-		<p:panelGrid columns="2" styleClass="formTable">
-  NOMBRE DE USUARIO: 
-  <p:inputText value="#{usuarios.usuario.login}" />
-  NOMBRE: 
-  <p:inputText value="#{usuarios.usuario.name}" />
-  
-  APELLIDOS: 
-  <p:inputText value="#{usuarios.usuario.surname}" />
-  
-  EMAIL: 
-  <p:inputText value="#{usuarios.usuario.email}" />
-  
-  CONTRASEÑA: 
-  <p:inputText type = "password" value="#{usuarios.usuario.password}" />
-  REPITA LA CONTRASEÑA: 
-  <p:inputText type = "password" value="#{usuarios.comparaPass}" />
+		<p:panelGrid id="grid" columns="3" cellpadding="5">
+			<p:outputLabel for="login" value="Login:" />
+			<p:inputText id="login" value="#{usuarios.usuario.login}"
+				required="true" />
+			<p:message for="login" />
+
+			<p:outputLabel for="nombre" value="Nombre:" />
+			<p:inputText id="nombre" value="#{usuarios.usuario.name}"
+				required="true" />
+			<p:message for="nombre" />
+
+			<p:outputLabel for="apellidos" value="Apellidos:" />
+			<p:inputText id="apellidos" value="#{usuarios.usuario.surname}"
+				required="true" />
+			<p:message for="apellidos" />
+
+			<p:outputLabel for="email" value="Email:" />
+			<p:inputText id="email" value="#{usuarios.usuario.email}"
+				required="true" />
+			<p:message for="email" />
+
+			<p:outputLabel for="pass" value="Contraseña:" />
+			<p:inputText id="pass" type="password"
+				value="#{usuarios.usuario.password}" required="true" />
+			<p:message for="pass" />
+
+
+			<p:outputLabel for="pass2" value="Repite la contraseña:" />
+			<p:inputText id="pass2" type="password"
+				value="#{usuarios.comparaPass}" required="true" />
+			<p:message for="pass2" />
+
 		</p:panelGrid>
-		<p:commandButton value="Salvar" action="#{usuarios.crearUsuario}" />
+		<p:commandButton value="Salvar" action="#{usuarios.crearUsuario}"
+			update="grid" ajax = "false"/>
 	</h:form>
 </h:body>
 </html>

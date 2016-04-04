@@ -1,8 +1,7 @@
 package uo.sdi.presentation;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Map;
 
 import javax.el.ELContext;
 import javax.el.ExpressionFactory;
@@ -14,12 +13,11 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
 
 import alb.util.log.Log;
-import uo.sdi.model.TripStatus;
 import uo.sdi.model.User;
-import uo.sdi.model.UserStatus;
+import uo.sdi.model.UserStatus; 
 import uo.sdi.persistence.PersistenceFactory;
-import uo.sdi.persistence.TripDao;
-import uo.sdi.persistence.UserDao;
+import uo.sdi.persistence.TripDao; 
+import uo.sdi.persistence.UserDao; 
 
 @ManagedBean(name = "usuarios")
 @SessionScoped
@@ -48,7 +46,7 @@ public class BeanUsuario implements Serializable {
 			ba = (BeanApplication) ve.getValue(contextoEL);
 		}
 	}
-	
+
 	public BeanViajes getBv() {
 		return bv;
 	}
@@ -113,11 +111,25 @@ public class BeanUsuario implements Serializable {
 				Log.info("El usuario [%s] ha iniciado sesión",
 						usuario.getLogin());
 				usuario = userByLogin;
+				putUserInSession(usuario);
 				rellenarListas();
+
 				return "exito";
 			}
 		}
 		return "fracaso";
+	}
+
+	private void putUserInSession(User user) {
+		Map<String, Object> session = FacesContext.getCurrentInstance()
+				.getExternalContext().getSessionMap();
+		session.put("LOGGEDIN_USER", user);
+	}
+	
+	private void putUserOutSession(User user) {
+		Map<String, Object> session = FacesContext.getCurrentInstance()
+				.getExternalContext().getSessionMap();
+		session.put("LOGGEDIN_USER", user);
 	}
 
 	public String rellenarListas() {
@@ -151,6 +163,7 @@ public class BeanUsuario implements Serializable {
 		pass = "";
 		login = "";
 		bv.listaViaje();
+		putUserOutSession(null);
 	}
 
 	/**
