@@ -1,5 +1,6 @@
 package uo.sdi.presentation;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,6 +11,8 @@ import javax.faces.application.Application;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
+
+import org.primefaces.event.CellEditEvent;
 
 import uo.sdi.model.ListaApuntados;
 import uo.sdi.model.ListaApuntados.PeticionEstado;
@@ -23,14 +26,16 @@ import uo.sdi.persistence.SeatDao;
 import uo.sdi.persistence.TripDao;
 
 @ManagedBean(name = "apuntados")
-public class BeanApplication {
+public class BeanApplication implements Serializable{
 
+	private static final long serialVersionUID = -8390132477462648301L;
 	@ManagedProperty("#{viajes}")
 	BeanViajes bv;
 	List<ListaApuntados> listaApuntadosUsuario;
 
 	List<ListaApuntados> listaApuntadosPromotor;
 	ListaApuntados apuntado;
+
 
 	private boolean renderIframeColumn;
 
@@ -247,5 +252,9 @@ public class BeanApplication {
 	public String vistaPromotor() {
 		listaApuntadosPromotor();
 		return "promotor";
+	}
+	
+	public void modifica(CellEditEvent event){
+		
 	}
 }
