@@ -1,6 +1,7 @@
 package uo.sdi.presentation;
 
 import java.io.Serializable;
+import java.util.Map;
 
 import javax.el.ELContext;
 import javax.el.ExpressionFactory;
@@ -45,7 +46,7 @@ public class BeanUsuario implements Serializable {
 			ba = (BeanApplication) ve.getValue(contextoEL);
 		}
 	}
-	
+
 	public BeanViajes getBv() {
 		return bv;
 	}
@@ -110,11 +111,25 @@ public class BeanUsuario implements Serializable {
 				Log.info("El usuario [%s] ha iniciado sesión",
 						usuario.getLogin());
 				usuario = userByLogin;
+				putUserInSession(usuario);
 				rellenarListas();
+
 				return "exito";
 			}
 		}
 		return "fracaso";
+	}
+
+	private void putUserInSession(User user) {
+		Map<String, Object> session = FacesContext.getCurrentInstance()
+				.getExternalContext().getSessionMap();
+		session.put("LOGGEDIN_USER", user);
+	}
+	
+	private void putUserOutSession(User user) {
+		Map<String, Object> session = FacesContext.getCurrentInstance()
+				.getExternalContext().getSessionMap();
+		session.put("LOGGEDIN_USER", user);
 	}
 
 	public String rellenarListas() {
@@ -148,6 +163,7 @@ public class BeanUsuario implements Serializable {
 		pass = "";
 		login = "";
 		bv.listaViaje();
+		putUserOutSession(null);
 	}
 
 	/**
