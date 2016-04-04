@@ -23,74 +23,113 @@
 	<br />
 	<br />
 	<h:form>
-		<p:panelGrid columns="2" styleClass="formTable">
-  Dirección de salida: 
-  <p:inputText value="#{viajes.viaje.departure.address}" />
-  
-  Ciudad de salida: 
-  <p:inputText value="#{viajes.viaje.departure.city}" />
-  
-  Estado de salida:
-  <p:inputText value="#{viajes.viaje.departure.state}" />
-  
-  Pais de salida:
-  <p:inputText value="#{viajes.viaje.departure.country}" />
-  
-  Zipcode de salida: 
-  <p:inputText value="#{viajes.viaje.departure.zipCode}" />
+	<p:panelGrid id = "grid" columns="3" cellPadding = "5"
+				style="margin: 0 auto;">
+				<p:outputLabel for="direccionSalida" value="Dirección de salida:" />
+				<p:inputText id="direccionSalida" type="text" value="#{viajes.viaje.departure.address}"
+					required="true"></p:inputText>
+				<p:message for="direccionSalida" />
+				
+				<p:outputLabel for="ciudadSalida" value="Ciudad de salida:" />
+				<p:inputText id="ciudadSalida" type="text" value="#{viajes.viaje.departure.city}"
+					required="true"></p:inputText>
+				<p:message for="ciudadSalida" />
+				
+				<p:outputLabel for="estadoSalida" value="Estado de salida:" />
+				<p:inputText id="estadoSalida" type="text" value="#{viajes.viaje.departure.state}"
+					required="true"></p:inputText>
+				<p:message for="estadoSalida" />
+				
+				<p:outputLabel for="paisSalida" value="Pais de salida:" />
+				<p:inputText id="paisSalida" type="text" value="#{viajes.viaje.departure.country}"
+					required="true"></p:inputText>
+				<p:message for="paisSalida" />
+				
+				<p:outputLabel for="zipSalida" value="Codigo zip de salida:" />
+				<p:inputText id="zipSalida" type="number" maxlength="5" value="#{viajes.viaje.departure.zipCode}"
+					required="true"></p:inputText>
+				<p:message for="zipSalida" />
+				
+				<p:outputLabel for="latitudSalida" value="Latitud de salida:" />
+				<p:inputText id="latitudSalida" type="number" maxlength="3" value="#{viajes.viaje.departure.waypoint.lat}"
+					required="true"></p:inputText>
+				<p:message for="latitudSalida" />
+				
+				<p:outputLabel for="longitudSalida" value="Longitud de salida:" />
+				<p:inputText id="longitudSalida" type="number" maxlength="3" value="#{viajes.viaje.departure.waypoint.lon}"
+					required="true"></p:inputText>
+				<p:message for="longitudSalida" />
+				
+				
+				
+				
+				
+				<p:outputLabel for="direccionLlegada" value="Dirección de llegada:" />
+				<p:inputText id="direccionLlegada" type="text" value="#{viajes.viaje.destination.address}"
+					required="true"></p:inputText>
+				<p:message for="direccionSalida" />
+				
+				<p:outputLabel for="ciudadLlegada" value="Ciudad de llegada:" />
+				<p:inputText id="ciudadLlegada" type="text" value="#{viajes.viaje.destination.city}"
+					required="true"></p:inputText>
+				<p:message for="ciudadSalida" />
+				
+				<p:outputLabel for="estadoLlegada" value="Estado de llegada:" />
+				<p:inputText id="estadoLlegada" type="text" value="#{viajes.viaje.destination.state}"
+					required="true"></p:inputText>
+				<p:message for="estadoLlegada" />
+				
+				<p:outputLabel for="paisLlegada" value="Pais de llegada:" />
+				<p:inputText id="paisLlegada" type="text" value="#{viajes.viaje.destination.country}"
+					required="true"></p:inputText>
+				<p:message for="paisLlegada" />
+				
+				<p:outputLabel for="zipLlegada" value="Codigo zip de llegada:" />
+				<p:inputText id="zipLlegada" type="number" maxlength="5" value="#{viajes.viaje.destination.zipCode}"
+					required="true"></p:inputText>
+				<p:message for="zipLlegada" />
+				
+				<p:outputLabel for="latitudLlegada" value="Latitud de llegada:" />
+				<p:inputText id="latitudLlegada" type="number" maxlength="3" value="#{viajes.viaje.destination.waypoint.lat}"
+					required="true"></p:inputText>
+				<p:message for="latitudLlegada" />
+				
+				<p:outputLabel for="longitudLlegada" value="Longitud de llegada:" />
+				<p:inputText id="longitudLlegada" type="number" maxlength="3" value="#{viajes.viaje.destination.waypoint.lon}"
+					required="true"></p:inputText>
+				<p:message for="longitudLlegada" />
 
-  Latitud de salida:
-  <p:inputText value="#{viajes.viaje.departure.waypoint.lat}" />
-  
-  Longitud de salida:
-  <p:inputText value="#{viajes.viaje.departure.waypoint.lon}" />
-  
-  Dirección de destino: 
-  <p:inputText value="#{viajes.viaje.destination.address}" />
-  
-  Ciudad de destino: 
-  <p:inputText value="#{viajes.viaje.destination.city}" />
-  
-  Estado de destino:
-  <p:inputText value="#{viajes.viaje.destination.state}" />
-  
-  Pais de destino:
-  <p:inputText value="#{viajes.viaje.destination.country}" />
-  
-  Zipcode de destino: 
-  <p:inputText value="#{viajes.viaje.destination.zipCode}" />
-
-  Latitud de destino:
-  <p:inputText value="#{viajes.viaje.destination.waypoint.lat}" />
-  
-  Longitud de destino:
-  <p:inputText value="#{viajes.viaje.destination.waypoint.lon}" />
+				<p:outputLabel for="fechallegada" value="Fecha de llegada:" />
+				<p:calendar id="fechallegada" value="#{viajes.viaje.arrivalDate}"
+					required="true"	pattern="MM/dd/yyyy HH:mm:ss" />
 
 
-			<p:outputLabel for="fechallegada" value="Fecha de llegada:" />
-			<p:calendar id="fechallegada" value="#{viajes.viaje.arrivalDate}"
-				pattern="MM/dd/yyyy HH:mm:ss" />
+				<p:outputLabel for="fechasalida" value=" Fecha de salida:" />
+				<p:calendar id="fechasalida" value="#{viajes.viaje.departureDate}"
+					required="true" pattern="MM/dd/yyyy HH:mm:ss" />
 
-
-			<p:outputLabel for="fechasalida" value=" Fecha de salida:" />
-			<p:calendar id="fechasalida" value="#{viajes.viaje.departureDate}"
-				pattern="MM/dd/yyyy HH:mm:ss" />
-
-			<p:outputLabel for="fechalimite" value="Fecha limite:" />
-			<p:calendar id="fechalimite" value="#{viajes.viaje.closingDate}"
-				pattern="MM/dd/yyyy HH:mm:ss" />
+				<p:outputLabel for="fechalimite" value="Fecha limite:" />
+				<p:calendar id="fechalimite" value="#{viajes.viaje.closingDate}"
+					required="true" pattern="MM/dd/yyyy HH:mm:ss" />
  
-  Plazas maximas:
-  <p:inputText value="#{viajes.viaje.maxPax}" />
-  
-  Coste:
-  <p:inputText value="#{viajes.viaje.estimatedCost}" />
-  
-  Comentarios:
-  <p:inputText value="#{viajes.viaje.comments}" />
+ 				<p:outputLabel for="plazasMaximas" value="Plazas maximas:" />
+				<p:inputText id="plazasMaximas" type="number" value="#{viajes.viaje.maxPax}"
+					required="true"></p:inputText>
+				<p:message for="plazasMaximas" />
+				
+				<p:outputLabel for="coste" value="Coste:" />
+				<p:inputText id="coste" type="number" value="#{viajes.viaje.estimatedCost}"
+					required="true"></p:inputText>
+				<p:message for="coste" />
+				
+				<p:outputLabel for="comentarios" value="Comentarios:" />
+				<p:inputText id="comentarios" type="text" value="#{viajes.viaje.comments}"
+					required="true"></p:inputText>
+				<p:message for="comentarios" />
+ 
 
 		</p:panelGrid>
-		<p:commandButton value="Salvar" action="#{usuarios.crearViaje}" />
+		<p:commandButton value="Salvar" action="#{usuarios.crearViaje}" update = "grid" ajax = "false"/>
 
 
 	</h:form>
