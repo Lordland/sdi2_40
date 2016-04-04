@@ -1,0 +1,129 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>ShareMyTrip - Página del promotor</title>
+</h:head>
+<h:body>
+	<h:form>
+		<p:menubar>
+			<p:menuitem value="ShareMyTrip">
+			</p:menuitem>
+			<p:submenu label="Gestion de viajes">
+				<p:menuitem value="Crear viaje" action="crearViaje"
+					actionListener="#{viajes.iniciaViaje}">
+				</p:menuitem>
+			</p:submenu>
+			<p:submenu label="Gestion de Usuarios">
+				<p:menuitem value="Volver a principal" action="principal">
+				</p:menuitem>
+				<p:menuitem value="Cerrar sesión" action="cerrar"
+					actionListener="#{usuarios.cerrarSesion}" ajax="false">
+				</p:menuitem>
+			</p:submenu>
+		</p:menubar>
+	</h:form>
+	<br></br>
+	<br></br>
+	Viajes creados por usted: 
+	<br></br>
+	<h:form id="form2">
+		<p:dataTable id="promotor" var="viaje" styleClass="formTable"
+			value="#{viajes.viajesPromotor}" border="1" style="margin: 0 auto;"
+			editable="true">
+			<p:ajax event="rowEdit" listener="#{viajes.actualizar}" />
+			<p:ajax event="rowEditCancel" listener="#{viajes.cancelarActualizar}" />
+			<p:column>
+				<f:facet name="header">Salida</f:facet>#{viaje.departure.city}</p:column>
+			<p:column>
+				<f:facet name="header">Destino</f:facet>#{viaje.destination.city}</p:column>
+			<p:column>
+				<f:facet name="header">Fecha de llegada</f:facet>#{viaje.arrivalDate}</p:column>
+			<p:column>
+				<f:facet name="header">Fecha de salida</f:facet>#{viaje.departureDate}</p:column>
+			<p:column>
+				<f:facet name="header">Fecha de cierre</f:facet>#{viaje.closingDate}</p:column>
+			<p:column>
+				<f:facet name="header">Plazas disponibles</f:facet>#{viaje.availablePax}</p:column>
+			<p:column>
+				<f:facet name="header">Plazas Máximas</f:facet>#{viaje.maxPax}</p:column>
+			<p:column>
+				<f:facet name="header">Precio aproximado</f:facet>#{viaje.estimatedCost}</p:column>
+			<p:column>
+				<f:facet name="header">Modificar</f:facet>
+				<h:commandLink action="modificarViaje" type="submit"
+					value="MODIFICAR" immediate="true">
+					<f:setPropertyActionListener target="#{viajes.viaje}"
+						value="#{viaje}" />
+				</h:commandLink>
+			</p:column>
+			<p:column>
+				<f:facet name="header">Estado</f:facet>
+				<p:cellEditor>
+					<f:facet name="output">
+					#{viaje.status}
+				</f:facet>
+					<f:facet name="input">
+						<h:selectOneMenu value="#{viaje.status}" style="width:100%">
+							<f:selectItems value="#{viajes.estados}" var="state"
+								itemLabel="#{status}" itemValue="#{status}" />
+						</h:selectOneMenu>
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+			<p:column style="width:32px">
+				<p:rowEditor />
+			</p:column>
+		</p:dataTable>
+
+		<br></br>
+		<br></br>
+		<br></br>
+	
+	Peticiones para apuntarse a sus viajes:
+	<br></br>
+
+		<p:dataTable var="apuntado" styleClass="formTable"
+			value="#{apuntados.listaApuntadosPromotor}" border="1"
+			style="margin: 0 auto;">
+			<p:column>
+				<f:facet name="header">Usuario</f:facet>#{apuntado.usuario.login}</p:column>
+			<p:column>
+				<f:facet name="header">Salida</f:facet>#{apuntado.viaje.departure.city}</p:column>
+			<p:column>
+				<f:facet name="header">Destino</f:facet>#{apuntado.viaje.destination.city}</p:column>
+			<p:column>
+				<f:facet name="header">Fecha de salida</f:facet>#{apuntado.viaje.departureDate}</p:column>
+			<p:column>
+				<f:facet name="header">Estado</f:facet>#{apuntado.relacionViaje}</p:column>
+
+			<p:column exportable="false"
+				rendered="#{apuntado.relacionViaje == 'PENDANT' 
+			|| apuntado.relacionViaje == 'EXCLUDED' }">
+				<p:commandLink value="ACEPTAR" action="#{apuntados.aceptar}"
+					immediate="true" update=":form2">
+					<f:setPropertyActionListener value="true"
+						target="#{apuntados.renderIframeColumn}" />
+					<f:setPropertyActionListener target="#{apuntados.apuntado}"
+						value="#{apuntado}" />
+				</p:commandLink>
+			</p:column>
+			<p:column exportable="false"
+				rendered="#{apuntado.relacionViaje == 'ACCEPTED' 
+			|| apuntado.relacionViaje == 'NO_SEAT'}">
+				<p:commandLink value="RECHAZAR" action="#{apuntados.cancelar}"
+					immediate="true" update=":form2">
+					<f:setPropertyActionListener value="true"
+						target="#{apuntados.renderIframeColumn}" />
+					<f:setPropertyActionListener target="#{apuntados.apuntado}"
+						value="#{apuntado}" />
+				</p:commandLink>
+			</p:column>
+		</p:dataTable>
+	</h:form>
+</h:body>
+</html>
