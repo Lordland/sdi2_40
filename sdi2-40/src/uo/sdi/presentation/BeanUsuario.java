@@ -158,12 +158,13 @@ public class BeanUsuario implements Serializable {
 	 * Cierra la sesión de usuario actual y deja el bean listo para aceptar
 	 * nuevos datos.
 	 */
-	public void cerrarSesion() {
+	public String cerrarSesion() {
 		setUsuario(new User());
 		pass = "";
 		login = "";
 		bv.listaViaje();
 		putUserOutSession(null);
+		return "cerrar";
 	}
 
 	/**
