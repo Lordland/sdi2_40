@@ -11,7 +11,7 @@
 	</h:head>
 	<h:body>
 		<h:form id="menu4">
-			<p:menubar id = "menu4-2">
+			<p:menubar>
 				<p:menuitem value="ShareMyTrip">
 				</p:menuitem>
 				<p:submenu id="gestion4" label="Gestion de viajes">
@@ -19,7 +19,7 @@
 						actionListener="#{viajes.iniciaViaje}">
 					</p:menuitem>
 				</p:submenu>
-				<p:submenu label="Gestion de Usuarios">
+				<p:submenu id ="gestion5" label="Gestion de Usuarios">
 					<p:menuitem id="volver" value="Volver a principal"
 						action="principal">
 					</p:menuitem>
@@ -62,7 +62,7 @@
 					<f:facet name="header">Precio aproximado</f:facet>#{viaje.estimatedCost}</p:column>
 				<p:column>
 					<f:facet name="header">Modificar</f:facet>
-					<h:commandLink action="modificarViaje" type="submit"
+					<h:commandLink id="modificar" action="modificarViaje" type="submit"
 						value="MODIFICAR" immediate="true">
 						<f:setPropertyActionListener target="#{viajes.viaje}"
 							value="#{viaje}" />
@@ -71,11 +71,12 @@
 				<p:column>
 					<f:facet name="header">Estado</f:facet>
 					<p:cellEditor>
-						<f:facet name="output">
+						<f:facet class="output" name="output">
 					#{viaje.status}
 				</f:facet>
 						<f:facet name="input">
-							<h:selectOneMenu value="#{viaje.status}" style="width:100%">
+							<h:selectOneMenu class="combo" value="#{viaje.status}"
+								style="width:100%">
 								<f:selectItems value="#{viajes.estados}" var="state"
 									itemLabel="#{status}" itemValue="#{status}" />
 							</h:selectOneMenu>
@@ -83,7 +84,7 @@
 					</p:cellEditor>
 				</p:column>
 				<p:column style="width:32px">
-					<p:rowEditor />
+					<p:rowEditor class="modif" />
 				</p:column>
 			</p:dataTable>
 
@@ -94,7 +95,7 @@
 	Peticiones para apuntarse a sus viajes:
 	<br></br>
 
-			<p:dataTable var="apuntado" styleClass="formTable"
+			<p:dataTable id="apuntados" var="apuntado" styleClass="formTable"
 				value="#{apuntados.listaApuntadosPromotor}" border="1"
 				style="margin: 0 auto;">
 				<p:column>
@@ -111,8 +112,8 @@
 				<p:column exportable="false"
 					rendered="#{apuntado.relacionViaje == 'PENDANT' 
 			|| apuntado.relacionViaje == 'EXCLUDED' }">
-					<p:commandLink value="ACEPTAR" action="#{apuntados.aceptar}"
-						immediate="true" update=":form2">
+					<p:commandLink class="aceptar" value="ACEPTAR"
+						action="#{apuntados.aceptar}" immediate="true" update=":form2">
 						<f:setPropertyActionListener value="true"
 							target="#{apuntados.renderIframeColumn}" />
 						<f:setPropertyActionListener target="#{apuntados.apuntado}"
@@ -122,8 +123,8 @@
 				<p:column exportable="false"
 					rendered="#{apuntado.relacionViaje == 'ACCEPTED' 
 			|| apuntado.relacionViaje == 'NO_SEAT'}">
-					<p:commandLink value="RECHAZAR" action="#{apuntados.cancelar}"
-						immediate="true" update=":form2">
+					<p:commandLink class="rechazar" value="RECHAZAR"
+						action="#{apuntados.cancelar}" immediate="true" update=":form2">
 						<f:setPropertyActionListener value="true"
 							target="#{apuntados.renderIframeColumn}" />
 						<f:setPropertyActionListener target="#{apuntados.apuntado}"

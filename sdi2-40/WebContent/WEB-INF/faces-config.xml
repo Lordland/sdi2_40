@@ -129,4 +129,26 @@
 			<to-view-id>/login.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>
+	<navigation-rule>
+		<display-name>modificarViaje.xhtml</display-name>
+		<from-view-id>/restricted/modificarViaje.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>promotor</from-outcome>
+			<to-view-id>/restricted/promotor.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-action>#{viajes.cambiaViaje}</from-action>
+			<from-outcome>fracaso</from-outcome>
+			<to-view-id>/restricted/modificarViaje.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-action>#{viajes.cambiaViaje}</from-action>
+			<from-outcome>exito</from-outcome>
+			<to-view-id>/restricted/promotor.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>cerrar</from-outcome>
+			<to-view-id>/login.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
 </faces-config>

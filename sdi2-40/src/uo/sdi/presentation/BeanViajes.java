@@ -78,7 +78,7 @@ public class BeanViajes implements Serializable {
 	public void setViajes(List<Trip> viajes) {
 		this.viajes = viajes;
 	}
-	
+
 	public TripStatus getEstado() {
 		return estado;
 	}
@@ -86,32 +86,34 @@ public class BeanViajes implements Serializable {
 	public void setEstado(TripStatus estado) {
 		this.estado = estado;
 	}
-	
+
 	/**
 	 * Método que crea un viaje ejemplo para ser rellenado
 	 */
 	public void iniciaViaje() {
 		setViaje(ServicesFactory.newTripService().iniciaViaje());
 	}
-	
 
 	/**
-	 * Método que registra un evento RowEdit y actualiza un viaje al modificarse su estado
-	 * en dicho evento
+	 * Método que registra un evento RowEdit y actualiza un viaje al modificarse
+	 * su estado en dicho evento
+	 * 
 	 * @param event
 	 */
-	public void actualizar(RowEditEvent event){
+	public void actualizar(RowEditEvent event) {
 		Trip v = (Trip) event.getObject();
 		ServicesFactory.newTripService().actualizarViaje(v);
-	} 
-	
+	}
+
 	/**
 	 * Método que registra un evento RowEdit y lo cancela
+	 * 
 	 * @param event
 	 */
-	public void cancelarActualizar(RowEditEvent event){
-		
+	public void cancelarActualizar(RowEditEvent event) {
+
 	}
+
 	/**
 	 * Lista todos los viajes existentes en la BD
 	 */
@@ -135,8 +137,8 @@ public class BeanViajes implements Serializable {
 	}
 
 	/**
-	 * Lista los viajes de la BD los cuales el usuario que ha iniciado sesión
-	 * es promotor
+	 * Lista los viajes de la BD los cuales el usuario que ha iniciado sesión es
+	 * promotor
 	 */
 	public void listaViajePromotor(long id) {
 		List<Trip> aux = new ArrayList<Trip>();
@@ -151,8 +153,13 @@ public class BeanViajes implements Serializable {
 	/**
 	 * Modifica un viaje concreto que el usuario seleccione
 	 */
-	public void cambiaViaje() {
-		ServicesFactory.newTripService().actualizaViajeId(viaje.getId());
+	public String cambiaViaje() {
+		try {
+			ServicesFactory.newTripService().actualizaViajeMod(viaje);
+			return "exito";
+		} catch (Exception e) {
+			return "fracaso";
+		}
 	}
 
 }

@@ -7,13 +7,20 @@
 <f:view locale="#{settings.locale}">
 
 	<h:head>
-		<title>Piloto de SDI</title>
+		<title>ShareMyTrip-Creacion de viajes</title>
 	</h:head>
 	<h:body>
 		<h:form>
 			<p:menubar>
-				<p:menuitem value="Volver a promotor" action="promotor">
+				<p:menuitem value="ShareMyTrip">
 				</p:menuitem>
+				<p:submenu label="Gestion de Usuarios">
+					<p:menuitem value="Volver a promotor" action="promotor">
+					</p:menuitem>
+					<p:menuitem id="cerrar2" value="Cerrar sesión" action="cerrar"
+						actionListener="#{usuarios.cerrarSesion}" ajax="false">
+					</p:menuitem>
+				</p:submenu>
 			</p:menubar>
 		</h:form>
 		<center>
@@ -24,7 +31,7 @@
 		<br />
 		<br />
 		<br />
-		<h:form id = "form-registro">
+		<h:form id="form-registro">
 			<p:panelGrid id="grid" columns="3" cellPadding="5">
 				<p:outputLabel for="direccionSalida" value="Dirección de salida:" />
 				<p:inputText id="direccionSalida" type="text"
@@ -52,13 +59,13 @@
 				<p:message for="zipSalida" />
 
 				<p:outputLabel for="latitudSalida" value="Latitud de salida:" />
-				<p:inputText id="latitudSalida" type="number" maxlength="3"
-					value="#{viajes.viaje.departure.waypoint.lat}" required="true"></p:inputText>
+				<p:spinner id="latitudSalida" type="number" maxlength="3"
+					value="#{viajes.viaje.departure.waypoint.lat}" required="true"></p:spinner>
 				<p:message for="latitudSalida" />
 
 				<p:outputLabel for="longitudSalida" value="Longitud de salida:" />
-				<p:inputText id="longitudSalida" type="number" maxlength="3"
-					value="#{viajes.viaje.departure.waypoint.lon}" required="true"></p:inputText>
+				<p:spinner id="longitudSalida" type="number" maxlength="3"
+					value="#{viajes.viaje.departure.waypoint.lon}" required="true"></p:spinner>
 				<p:message for="longitudSalida" />
 
 				<p:outputLabel for="direccionLlegada" value="Dirección de llegada:" />
@@ -87,39 +94,38 @@
 				<p:message for="zipLlegada" />
 
 				<p:outputLabel for="latitudLlegada" value="Latitud de llegada:" />
-				<p:inputText id="latitudLlegada" type="number" maxlength="3"
-					value="#{viajes.viaje.destination.waypoint.lat}" required="true"></p:inputText>
+				<p:spinner id="latitudLlegada" type="number" maxlength="3"
+					value="#{viajes.viaje.destination.waypoint.lat}" required="true"></p:spinner>
 				<p:message for="latitudLlegada" />
 
 				<p:outputLabel for="longitudLlegada" value="Longitud de llegada:" />
-				<p:inputText id="longitudLlegada" type="number" maxlength="3"
-					value="#{viajes.viaje.destination.waypoint.lon}" required="true"></p:inputText>
+				<p:spinner id="longitudLlegada" type="number" maxlength="3"
+					value="#{viajes.viaje.destination.waypoint.lon}" required="true"></p:spinner>
 				<p:message for="longitudLlegada" />
 
 				<p:outputLabel for="fechallegada" value="Fecha de llegada:" />
 				<p:calendar id="fechallegada" value="#{viajes.viaje.arrivalDate}"
-					required="true" pattern="MM/dd/yyyy HH:mm:ss" user-editable= "true"/>
+					required="true" pattern="MM/dd/yyyy HH:mm:ss" />
 				<p:message for="fechallegada" />
 
 
 				<p:outputLabel for="fechasalida" value=" Fecha de salida:" />
 				<p:calendar id="fechasalida" value="#{viajes.viaje.departureDate}"
-					required="true" pattern="MM/dd/yyyy HH:mm:ss" user-editable= "true"/>
+					required="true" pattern="MM/dd/yyyy HH:mm:ss" />
 				<p:message for="fechasalida" />
 
 				<p:outputLabel for="fechalimite" value="Fecha limite:" />
 				<p:calendar id="fechalimite" value="#{viajes.viaje.closingDate}"
-					required="true" pattern="MM/dd/yyyy HH:mm:ss" user-editable= "true"/>
+					required="true" pattern="MM/dd/yyyy HH:mm:ss" />
 				<p:message for="fechalimite" />
-
 				<p:outputLabel for="plazasMaximas" value="Plazas maximas:" />
-				<p:inputText id="plazasMaximas" type="number"
-					value="#{viajes.viaje.maxPax}" required="true"></p:inputText>
+				<p:spinner id="plazasMaximas" type="number" min = "1"
+					value="#{viajes.viaje.maxPax}" required="true"></p:spinner>
 				<p:message for="plazasMaximas" />
 
 				<p:outputLabel for="coste" value="Coste:" />
-				<p:inputText id="coste" type="number"
-					value="#{viajes.viaje.estimatedCost}" required="true"></p:inputText>
+				<p:spinner id="coste" type="number" min = "1"
+					value="#{viajes.viaje.estimatedCost}" required="true"></p:spinner>
 				<p:message for="coste" />
 
 				<p:outputLabel for="comentarios" value="Comentarios:" />
@@ -129,8 +135,8 @@
 
 
 			</p:panelGrid>
-			<p:commandButton id = "botonSalvarViaje" value="Salvar" action="#{usuarios.crearViaje}"
-				update="grid" ajax="false" />
+			<p:commandButton id="botonSalvarViaje" value="Salvar"
+				action="#{usuarios.crearViaje}" update="grid" ajax="false" />
 
 
 		</h:form>
