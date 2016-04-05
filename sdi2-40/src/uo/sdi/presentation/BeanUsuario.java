@@ -1,7 +1,6 @@
 package uo.sdi.presentation;
 
 import java.io.Serializable;
-import java.util.Map;
 
 import javax.el.ELContext;
 import javax.el.ExpressionFactory;
@@ -13,11 +12,9 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
 
 import alb.util.log.Log;
+import uo.sdi.business.ServicesFactory;
+import uo.sdi.business.UserService;
 import uo.sdi.model.User;
-import uo.sdi.model.UserStatus; 
-import uo.sdi.persistence.PersistenceFactory;
-import uo.sdi.persistence.TripDao; 
-import uo.sdi.persistence.UserDao; 
 
 @ManagedBean(name = "usuarios")
 @SessionScoped
@@ -105,13 +102,13 @@ public class BeanUsuario implements Serializable {
 	 */
 	public String iniciarSesion() {
 		if (usuario != null) {
-			UserDao dao = PersistenceFactory.newUserDao();
-			User userByLogin = dao.findByLogin(login);
+			UserService us = ServicesFactory.newUserService();
+			User userByLogin = us.buscaUsuario(login);
 			if (userByLogin != null && userByLogin.getPassword().equals(pass)) {
 				Log.info("El usuario [%s] ha iniciado sesión",
 						usuario.getLogin());
 				usuario = userByLogin;
-				putUserInSession(usuario);
+				us.iniciaSesion(usuario);
 				rellenarListas();
 
 				return "exito";
@@ -120,18 +117,12 @@ public class BeanUsuario implements Serializable {
 		return "fracaso";
 	}
 
-	private void putUserInSession(User user) {
-		Map<String, Object> session = FacesContext.getCurrentInstance()
-				.getExternalContext().getSessionMap();
-		session.put("LOGGEDIN_USER", user);
-	}
-	
-	private void putUserOutSession(User user) {
-		Map<String, Object> session = FacesContext.getCurrentInstance()
-				.getExternalContext().getSessionMap();
-		session.put("LOGGEDIN_USER", user);
-	}
-
+	/**
+	 * Crea las listas en base a las ya existentes en los bean Viajes y
+	 * Application
+	 * 
+	 * @return
+	 */
 	public String rellenarListas() {
 		try {
 			bv.listaViajePromotor(usuario.getId());
@@ -150,8 +141,7 @@ public class BeanUsuario implements Serializable {
 	 * modificado
 	 */
 	public void modificarUsuario() {
-		UserDao dao = PersistenceFactory.newUserDao();
-		dao.update(usuario);
+		ServicesFactory.newUserService().actualizarUsario(usuario);
 	}
 
 	/**
@@ -163,7 +153,7 @@ public class BeanUsuario implements Serializable {
 		pass = "";
 		login = "";
 		bv.listaViaje();
-		putUserOutSession(null);
+		ServicesFactory.newUserService().cerrarSesion(null);
 	}
 
 	/**
@@ -172,21 +162,12 @@ public class BeanUsuario implements Serializable {
 	 * @return exito si se introdujo adecuadamente y fracaso si hubo algún error
 	 */
 	public String crearViaje() {
-		TripDao dao = PersistenceFactory.newTripDao();
 		try {
-			bv.getViaje().setPromoterId(usuario.getId());
-			bv.getViaje().setMaxPax(bv.getViaje().getAvailablePax());
-			dao.save(bv.getViaje());
-			Log.info("El viaje [%s] ha sido creado satisfactoriamente", bv
-					.getViaje().getDeparture().getCity()
-					+ "-" + bv.getViaje().getDestination().getCity());
+			ServicesFactory.newTripService().creaViaje(bv.getViaje(), usuario);
 			bv.iniciaViaje();
 			bv.listaViaje();
 			return "exito";
 		} catch (Exception e) {
-			Log.error("Ha ocurrido algo creando el viaje [%s]", bv.getViaje()
-					.getDeparture().getCity()
-					+ "-" + bv.getViaje().getDestination().getCity());
 			bv.iniciaViaje();
 			return "fracaso";
 		}
@@ -200,18 +181,12 @@ public class BeanUsuario implements Serializable {
 	 * @return exito si se introdujo adecuadamente y fracaso si hubo algún error
 	 */
 	public String crearUsuario() {
-		UserDao dao = PersistenceFactory.newUserDao();
-		usuario.setStatus(UserStatus.ACTIVE);
 		try {
-			dao.save(usuario);
-			Log.info("El usuario [%s] ha sido creado satisfactoriamente",
-					usuario.getLogin());
+			ServicesFactory.newUserService().crearUsuario(usuario, comparaPass);
 			setUsuario(new User());
 			comparaPass = "";
 			return "exito";
-		} catch (Exception e) {
-			Log.error("Ha ocurrido algo creando al usuario [%s]",
-					usuario.getLogin());
+		} catch (Exception e) { 
 			setUsuario(new User());
 			comparaPass = "";
 			return "fracaso";

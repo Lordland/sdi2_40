@@ -4,60 +4,78 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
-<h:head>
-	<title>ShareMyTrip-Registro de usuario</title>
-</h:head>
-<h:body>
-	<h:form>
-		<p:menubar>
-			<p:menuitem value="ShareMyTrip" action="login">
-			</p:menuitem>
-		</p:menubar>
-	</h:form>
-	<center>
-		<h1>ShareMyTrip</h1>
+<f:view locale="#{settings.locale}">
+
+	<h:head>
+		<title>#{msgs.tituloHeadRegistroUsuario}</title>
+	</h:head>
+	<h:body>
+		<h:form >
+			<p:menubar id = "menu2">
+				<p:menuitem value="#{msgs.botonMenu}" action="login">
+				</p:menuitem>
+				<f:facet name="options">
+					<h:commandLink value="#{msgs.enlaceIdiomaES}"
+						actionListener="#{settings.setSpanish}">
+					</h:commandLink>
+					<h:commandLink value="#{msgs.enlaceIdiomaEN}"
+						actionListener="#{settings.setEnglish}">
+					</h:commandLink>
+				</f:facet>
+			</p:menubar>
+			<f:facet name="options">
+				<h:commandLink value="#{msgs.enlaceIdiomaES}"
+					actionListener="#{settings.setSpanish}">
+				</h:commandLink>
+				<h:commandLink value="#{msgs.enlaceIdiomaEN}"
+					actionListener="#{settings.setEnglish}">
+				</h:commandLink>
+			</f:facet>
+
+		</h:form >
+		<center>
+			<h1>#{msgs.tituloRegistroUsuario}</h1>
+		</center>
 		<br />
-		<h2>Registro de usuario</h2>
-	</center>
-	<br />
-	<br />
-	<br />
-	<h:form>
-		<p:panelGrid id="grid" columns="3" cellpadding="5">
-			<p:outputLabel for="login" value="Login:" />
-			<p:inputText id="login" value="#{usuarios.usuario.login}"
-				required="true" />
-			<p:message for="login" />
+		<br />
+		<br />
+		<h:form id ="form-registro">
+			<p:panelGrid id="grid" columns="3" cellpadding="5">
+				<p:outputLabel for="login" value="#{msgs.labelOutputLogin}" />
+				<p:inputText id="login" value="#{usuarios.usuario.login}"
+					required="true" />
+				<p:message for="login" />
 
-			<p:outputLabel for="nombre" value="Nombre:" />
-			<p:inputText id="nombre" value="#{usuarios.usuario.name}"
-				required="true" />
-			<p:message for="nombre" />
+				<p:outputLabel for="nombre" value="#{msgs.labelOutputNombre}" />
+				<p:inputText id="nombre" value="#{usuarios.usuario.name}"
+					required="true" />
+				<p:message for="nombre" />
 
-			<p:outputLabel for="apellidos" value="Apellidos:" />
-			<p:inputText id="apellidos" value="#{usuarios.usuario.surname}"
-				required="true" />
-			<p:message for="apellidos" />
+				<p:outputLabel for="apellidos" value="#{msgs.labelOutputApellidos}" />
+				<p:inputText id="apellidos" value="#{usuarios.usuario.surname}"
+					required="true" />
+				<p:message for="apellidos" />
 
-			<p:outputLabel for="email" value="Email:" />
-			<p:inputText id="email" value="#{usuarios.usuario.email}"
-				required="true" />
-			<p:message for="email" />
+				<p:outputLabel for="email" value="#{msgs.labelOutputEmail}" />
+				<p:inputText id="email" value="#{usuarios.usuario.email}"
+					required="true" />
+				<p:message for="email" />
 
-			<p:outputLabel for="pass" value="Contraseña:" />
-			<p:inputText id="pass" type="password"
-				value="#{usuarios.usuario.password}" required="true" />
-			<p:message for="pass" />
+				<p:outputLabel for="pass" value="#{msgs.labelOutputPass}" />
+				<p:inputText id="pass" type="password"
+					value="#{usuarios.usuario.password}" required="true" />
+				<p:message for="pass" />
 
 
-			<p:outputLabel for="pass2" value="Repite la contraseña:" />
-			<p:inputText id="pass2" type="password"
-				value="#{usuarios.comparaPass}" required="true" />
-			<p:message for="pass2" />
+				<p:outputLabel for="pass2" value="#{msgs.labelOutputRepitePass}" />
+				<p:inputText id="pass2" type="password"
+					value="#{usuarios.comparaPass}" required="true" />
+				<p:message for="pass2" />
 
-		</p:panelGrid>
-		<p:commandButton value="Salvar" action="#{usuarios.crearUsuario}"
-			update="grid" ajax = "false"/>
-	</h:form>
-</h:body>
+			</p:panelGrid>
+			<p:commandButton id = "botonSalvarUsuario" value="#{msgs.botonSalvar}"
+				action="#{usuarios.crearUsuario}" update="grid" ajax="false" />
+		</h:form>
+	</h:body>
+</f:view>
 </html>

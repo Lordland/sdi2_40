@@ -12,21 +12,12 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
 
-import org.primefaces.event.CellEditEvent;
-
+import uo.sdi.business.ServicesFactory;
 import uo.sdi.model.ListaApuntados;
-import uo.sdi.model.ListaApuntados.PeticionEstado;
 import uo.sdi.model.Seat;
-import uo.sdi.model.SeatStatus;
-import uo.sdi.model.Trip;
 import uo.sdi.model.User;
-import uo.sdi.persistence.ApplicationDao;
-import uo.sdi.persistence.PersistenceFactory;
-import uo.sdi.persistence.SeatDao;
-import uo.sdi.persistence.TripDao;
-
 @ManagedBean(name = "apuntados")
-public class BeanApplication implements Serializable{
+public class BeanApplication implements Serializable {
 
 	private static final long serialVersionUID = -8390132477462648301L;
 	@ManagedProperty("#{viajes}")
@@ -35,7 +26,6 @@ public class BeanApplication implements Serializable{
 
 	List<ListaApuntados> listaApuntadosPromotor;
 	ListaApuntados apuntado;
-
 
 	private boolean renderIframeColumn;
 
@@ -88,59 +78,45 @@ public class BeanApplication implements Serializable{
 		this.listaApuntadosPromotor = listaApuntadosPromotor;
 	}
 
+	/**
+	 * Acepta un usuario en un viaje y disminuye el nº de plazas disponibles
+	 */
 	public void aceptar() {
-		Seat s = new Seat();
-		SeatDao sd = PersistenceFactory.newSeatDao();
-		TripDao td = PersistenceFactory.newTripDao();
-		// Añadido en BD
-		Long ids[] = { apuntado.getUsuario().getId(),
-				apuntado.getViaje().getId() };
-		Seat seat = sd.findById(ids);
-		if (seat == null) {
-			s.setStatus(SeatStatus.ACCEPTED);
-			s.setTripId(apuntado.getViaje().getId());
-			s.setUserId(apuntado.getUsuario().getId());
-			sd.save(s);
-		} else {
-			seat.setStatus(SeatStatus.ACCEPTED);
-			sd.update(seat);
-		}
-		apuntado.getViaje().setAvailablePax(
-				apuntado.getViaje().getAvailablePax() - 1);
-		td.update(apuntado.getViaje());
-		// Actualizacion interfaz
-		bv.listaViaje();
-		for (ListaApuntados ap : listaApuntadosPromotor) {
-			if (ap.equals(apuntado)) {
-				if (ap.getAsiento() == null)
-					ap.setAsiento(s);
-				else
-					ap.setAsiento(seat);
-				ap.setRelacionViaje();
+		try {
+			Seat asiento = ServicesFactory.newApplicationService()
+					.aceptarUsuario(apuntado);
+			// Actualizacion interfaz
+			bv.listaViaje();
+			for (ListaApuntados ap : listaApuntadosPromotor) {
+				if (ap.equals(apuntado)) {
+					ap.setAsiento(asiento);
+					ap.setRelacionViaje();
+				}
 			}
+		} catch (Exception e) {
+
 		}
 
 	}
 
+	/**
+	 * Rechaza a un usuario ya aceptado o no en un viaje en concreto
+	 */
 	public void cancelar() {
-		// Insercion en BD
-		SeatDao sd = PersistenceFactory.newSeatDao();
-		TripDao td = PersistenceFactory.newTripDao();
-		Long ids[] = { apuntado.getUsuario().getId(),
-				apuntado.getViaje().getId() };
-		Seat s = sd.findById(ids);
-		s.setStatus(SeatStatus.EXCLUDED);
-		sd.update(s);
-		apuntado.getViaje().setAvailablePax(
-				apuntado.getViaje().getAvailablePax() + 1);
-		td.update(apuntado.getViaje());
-		// Actualizacion interfaz
-		bv.listaViaje();
-		for (ListaApuntados ap : listaApuntadosPromotor) {
-			if (ap.equals(apuntado)) {
-				ap.setAsiento(s);
-				ap.setRelacionViaje();
+		try {
+			// Insercion en BD
+			Seat asiento = ServicesFactory.newApplicationService()
+					.cancelarUsuario(apuntado);
+			// Actualizacion interfaz
+			bv.listaViaje();
+			for (ListaApuntados ap : listaApuntadosPromotor) {
+				if (ap.equals(apuntado)) {
+					ap.setAsiento(asiento);
+					ap.setRelacionViaje();
+				}
 			}
+		} catch (Exception e) {
+
 		}
 	}
 
@@ -159,11 +135,7 @@ public class BeanApplication implements Serializable{
 		}
 		if (!esta) {
 			// Añadido a la BD
-			ApplicationDao ad = PersistenceFactory.newApplicationDao();
-			uo.sdi.model.Application a = new uo.sdi.model.Application();
-			a.setTripId(ap.getViaje().getId());
-			a.setUserId(ap.getUsuario().getId());
-			ad.save(a);
+			ServicesFactory.newApplicationService().apuntarseViaje(ap);
 			// Actualizacion de la lista
 			if (listaApuntadosUsuario.isEmpty()) {
 				listaApuntadosUsuario.add(ap);
@@ -173,88 +145,38 @@ public class BeanApplication implements Serializable{
 		}
 	}
 
+	/**
+	 * Método que desapunta a un usuario de un viaje. Si estuviera ya aceptado, modifica
+	 * el viaje incrementando en 1 el nº de plazas disponibles
+	 */
 	public void desapuntarse() {
-		// Borrado de la BD
-		ApplicationDao ad = PersistenceFactory.newApplicationDao();
-		TripDao td = PersistenceFactory.newTripDao();
-		SeatDao sd = PersistenceFactory.newSeatDao();
-		Long[] ids = { apuntado.getUsuario().getId(),
-				apuntado.getViaje().getId() };
-		int borrado = ad.delete(ids);
-		if(apuntado.getRelacionViaje().equals(PeticionEstado.ACCEPTED)){
-			apuntado.getViaje().setAvailablePax(apuntado.getViaje().getAvailablePax() +1 );
-			td.update(apuntado.getViaje());
+		try {
+			// Borrado de la BD
+			int borrado = ServicesFactory.newApplicationService().desapuntarseViaje(apuntado);
+			// Actualizacion de la lista
+			if (borrado > 0) {
+				if (listaApuntadosUsuario.contains(apuntado))
+					listaApuntadosUsuario.remove(apuntado);
+			}
+			bv.listaViajeUsuario(apuntado.getUsuario().getId());
+		} catch (Exception e) {
+
 		}
-		if(apuntado.getAsiento() != null){
-			sd.delete(ids);
-		}
-		
-		// Actualizacion de la lista
-		if (borrado > 0) {
-			if (listaApuntadosUsuario.contains(apuntado))
-				listaApuntadosUsuario.remove(apuntado);
-		}
-		bv.listaViajeUsuario(apuntado.getUsuario().getId());
 
 	}
 
 	public void listaApuntadosUsuario(User usuario) {
 		listaApuntadosUsuario = new ArrayList<ListaApuntados>();
-		List<uo.sdi.model.Application> reservas = PersistenceFactory
-				.newApplicationDao().findByUserId(usuario.getId());
-		List<Seat> asientos = PersistenceFactory.newSeatDao().findAll();
-		List<Trip> viajes = PersistenceFactory.newTripDao().findAll();
-		for (Trip t : viajes) {
-			for (uo.sdi.model.Application ap : reservas) {
-				ListaApuntados a = new ListaApuntados();
-				if (ap.getTripId().equals(t.getId())
-						&& usuario.getId().equals(ap.getUserId())) {
-					a.setUsuario(usuario);
-					a.setViaje(t);
-					for (Seat s : asientos) {
-						if (s.getTripId().equals(t.getId())
-								&& usuario.getId().equals(s.getUserId())) {
-							a.setAsiento(s);
-						}
-					}
-					a.setRelacionViaje();
-					listaApuntadosUsuario.add(a);
-				}
-			}
-		}
+		setListaApuntadosUsuario(ServicesFactory.newApplicationService().listaApuntadosUsuario(usuario));
 	}
 
 	public void listaApuntadosPromotor() {
 		listaApuntadosPromotor = new ArrayList<ListaApuntados>();
-		List<uo.sdi.model.Application> reservas = PersistenceFactory
-				.newApplicationDao().findAll();
-		List<Seat> asientos = PersistenceFactory.newSeatDao().findAll();
-		for (Trip t : bv.getViajesPromotor()) {
-			for (uo.sdi.model.Application ap : reservas) {
-				ListaApuntados a = new ListaApuntados();
-				if (ap.getTripId().equals(t.getId())) {
-					a.setUsuario(PersistenceFactory.newUserDao().findById(
-							ap.getUserId()));
-					a.setViaje(t);
-					for (Seat s : asientos) {
-						if (s.getTripId().equals(t.getId())
-								&& a.getUsuario().getId().equals(s.getUserId())) {
-							a.setAsiento(s);
-						}
-					}
-					a.setRelacionViaje();
-					listaApuntadosPromotor.add(a);
-				}
-			}
-		}
+		setListaApuntadosPromotor(ServicesFactory.newApplicationService().listaApuntadosPromotor(bv.getViajesPromotor()));
 	}
 
 	public String vistaPromotor() {
 		listaApuntadosPromotor();
 		return "promotor";
-	}
-	
-	public void modifica(CellEditEvent event){
-		
 	}
 }
