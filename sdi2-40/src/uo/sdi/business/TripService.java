@@ -12,9 +12,9 @@ public interface TripService {
 	
 	public List<Trip> listarViajes();
 	
-	public void actualizaViajeId(Long id);
-	
 	public Trip iniciaViaje();
 	
 	public void creaViaje(Trip viaje, User usuario);
+
+	public void actualizaViajeMod(Trip viaje);
 }

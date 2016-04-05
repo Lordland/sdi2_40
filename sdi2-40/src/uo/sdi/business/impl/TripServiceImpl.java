@@ -25,10 +25,10 @@ public class TripServiceImpl implements TripService{
 		return PersistenceFactory.newTripDao().findAll();
 	}
 	
-	public void actualizaViajeId(Long id){
+	public void actualizaViajeMod(Trip v){
+		v.setAvailablePax(v.getMaxPax());
 		TripDao td = PersistenceFactory.newTripDao();
-		Trip t = td.findById(id);
-		td.update(t);
+		td.update(v);
 	}
 	
 	public Trip iniciaViaje(){
