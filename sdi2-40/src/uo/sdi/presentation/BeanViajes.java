@@ -2,19 +2,15 @@ package uo.sdi.presentation;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.faces.bean.*;
 
 import org.primefaces.event.RowEditEvent;
 
-import uo.sdi.model.AddressPoint;
+import uo.sdi.business.ServicesFactory;
 import uo.sdi.model.Trip;
 import uo.sdi.model.TripStatus;
-import uo.sdi.model.Waypoint;
-import uo.sdi.persistence.PersistenceFactory;
-import uo.sdi.persistence.TripDao;
 
 @ManagedBean(name = "viajes")
 @ApplicationScoped
@@ -83,34 +79,36 @@ public class BeanViajes implements Serializable {
 		this.viajes = viajes;
 	}
 	
+	public TripStatus getEstado() {
+		return estado;
+	}
+
+	public void setEstado(TripStatus estado) {
+		this.estado = estado;
+	}
+	
 	/**
-	 * 
+	 * Método que crea un viaje ejemplo para ser rellenado
 	 */
 	public void iniciaViaje() {
-		viaje = new Trip();
-		viaje.setDeparture(new AddressPoint("Mi direccion", "Mi ciudad",
-				"Mi país", "Mi provincia", "Mi código postal", new Waypoint(
-						0.0, 0.0)));
-		viaje.setDestination(new AddressPoint("Mi direccion", "Mi ciudad",
-				"Mi país", "Mi provincia", "Mi código postal", new Waypoint(
-						0.0, 0.0)));
-		viaje.setArrivalDate(new Date());
-		viaje.setClosingDate(new Date());
-		viaje.setDepartureDate(new Date());
-		viaje.setComments("Comentario de prueba");
-		viaje.setAvailablePax(5);
-		viaje.setMaxPax(5);
-		viaje.setEstimatedCost(50.0);
-		viaje.setStatus(TripStatus.OPEN);
+		setViaje(ServicesFactory.newTripService().iniciaViaje());
 	}
 	
 
+	/**
+	 * Método que registra un evento RowEdit y actualiza un viaje al modificarse su estado
+	 * en dicho evento
+	 * @param event
+	 */
 	public void actualizar(RowEditEvent event){
 		Trip v = (Trip) event.getObject();
-		TripDao td = PersistenceFactory.newTripDao();
-		td.update(v);
+		ServicesFactory.newTripService().actualizarViaje(v);
 	} 
 	
+	/**
+	 * Método que registra un evento RowEdit y lo cancela
+	 * @param event
+	 */
 	public void cancelarActualizar(RowEditEvent event){
 		
 	}
@@ -118,7 +116,8 @@ public class BeanViajes implements Serializable {
 	 * Lista todos los viajes existentes en la BD
 	 */
 	public void listaViaje() {
-		setViajes(PersistenceFactory.newTripDao().findAll());
+		List<Trip> lista = ServicesFactory.newTripService().listarViajes();
+		setViajes(lista);
 	}
 
 	/**
@@ -136,7 +135,7 @@ public class BeanViajes implements Serializable {
 	}
 
 	/**
-	 * Lista los viajes de la BD los cuales ell usuario que ha iniciado sesión
+	 * Lista los viajes de la BD los cuales el usuario que ha iniciado sesión
 	 * es promotor
 	 */
 	public void listaViajePromotor(long id) {
@@ -153,17 +152,7 @@ public class BeanViajes implements Serializable {
 	 * Modifica un viaje concreto que el usuario seleccione
 	 */
 	public void cambiaViaje() {
-		TripDao td = PersistenceFactory.newTripDao();
-		Trip t = td.findById(viaje.getId());
-		td.update(t);
-	}
-
-	public TripStatus getEstado() {
-		return estado;
-	}
-
-	public void setEstado(TripStatus estado) {
-		this.estado = estado;
+		ServicesFactory.newTripService().actualizaViajeId(viaje.getId());
 	}
 
 }

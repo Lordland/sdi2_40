@@ -1,5 +1,7 @@
 package uo.sdi.model;
 
+import java.io.UnsupportedEncodingException;
+
 
 /**
  * This class represents a value type
@@ -28,23 +30,53 @@ public class AddressPoint {
 
 	
 	public void setAddress(String address) {
-		this.address = address;
+		byte [] parameterByte= address.getBytes();        
+		try {
+			this.address = new String(parameterByte,"UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public void setCity(String city) {
-		this.city = city;
+		byte [] parameterByte= city.getBytes();        
+		try {
+			this.city = new String(parameterByte,"UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public void setState(String state) {
-		this.state = state;
+		byte [] parameterByte= state.getBytes();        
+		try {
+			this.state = new String(parameterByte,"UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public void setCountry(String country) {
-		this.country = country;
+		byte [] parameterByte= country.getBytes();        
+		try {
+			this.country = new String(parameterByte,"UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public void setZipCode(String zipCode) {
-		this.zipCode = zipCode;
+		byte [] parameterByte= zipCode.getBytes();        
+		try {
+			this.zipCode = new String(parameterByte,"UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public void setWaypoint(Waypoint waypoint) {
