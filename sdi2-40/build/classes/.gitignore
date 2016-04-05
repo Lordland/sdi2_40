@@ -1,20 +1,5 @@
 /database.properties
-/sql_queries.properties
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
->>>>>>> refs/remotes/origin/master
->>>>>>> branch 'master' of https://github.com/Vodkaneitor93/sdi2_40.git
->>>>>>> refs/remotes/origin/Vodka93
-/uo
-=======
-/uo/
->>>>>>> refs/remotes/origin/Palas
-<<<<<<< HEAD
-=======
-/messages_es.properties
 /messages_en.properties
-/business
->>>>>>> refs/remotes/origin/Vodka93
+/messages_es.properties
+/sql_queries.properties
+/uo/

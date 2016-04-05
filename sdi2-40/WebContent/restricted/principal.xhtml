@@ -14,46 +14,54 @@
 			<p:menubar>
 				<p:menuitem value="ShareMyTrip">
 				</p:menuitem>
-				<p:submenu id = "gestion2" label="Gestión de usuarios">
-					<p:menuitem id = "promotor" value="Promotor" action="promotor"
+				<p:submenu id = "gestion2" label="#{msgs.menuGestionUsuarios}">
+					<p:menuitem id = "promotor" value="#{msgs.menuPromotor}" action="promotor"
 						actionListener="#{apuntados.vistaPromotor}">
 					</p:menuitem>
-					<p:menuitem id = "modificarUsuario" value="Modificar usuario" action="modificar">
+					<p:menuitem id = "modificarUsuario" value="#{msgs.menuModificarUsuario}" action="modificar">
 					</p:menuitem>
-					<p:menuitem id = "cerrar1" value="Cerrar sesión" action="cerrar"
+					<p:menuitem id = "cerrar1" value="#{msgs.menuCerrarSesion}" action="cerrar"
 						actionListener="#{usuarios.cerrarSesion}" ajax="false">
 					</p:menuitem>
 				</p:submenu>
+				<f:facet name="options">
+						<h:commandLink value="#{msgs.enlaceIdiomaES}"
+							actionListener="#{settings.setSpanish}">
+						</h:commandLink>
+						<h:commandLink value="#{msgs.enlaceIdiomaEN}"
+							actionListener="#{settings.setEnglish}">
+						</h:commandLink>
+					</f:facet>
 			</p:menubar>
 		</h:form>
 		<h:form id="form-principal">
 			<center>
-				<h1>Página principal</h1>
+				<h1>#{msgs.paginaPrincipal}</h1>
 			</center>
 			<p:dataTable var="viaje" styleClass="formTable"
 				value="#{viajes.viajesUsuario}" border="1" style="margin: 0 auto;">
 				<p:column>
-					<f:facet name="header">Salida</f:facet>#{viaje.departure.city}</p:column>
+					<f:facet name="header">#{msgs.tablaSalida}</f:facet>#{viaje.departure.city}</p:column>
 				<p:column>
-					<f:facet name="header">Destino</f:facet>#{viaje.destination.city}</p:column>
+					<f:facet name="header">#{msgs.tablaDestino}</f:facet>#{viaje.destination.city}</p:column>
 				<p:column>
-					<f:facet name="header">Fecha de llegada</f:facet>#{viaje.arrivalDate}</p:column>
+					<f:facet name="header">#{msgs.tablaFechaLlegada}</f:facet>#{viaje.arrivalDate}</p:column>
 				<p:column>
-					<f:facet name="header">Fecha de salida</f:facet>#{viaje.departureDate}</p:column>
+					<f:facet name="header">#{msgs.tablaFechaSalida}</f:facet>#{viaje.departureDate}</p:column>
 				<p:column>
-					<f:facet name="header">Fecha de cierre</f:facet>#{viaje.closingDate}</p:column>
+					<f:facet name="header">#{msgs.tablaFechaCierre}</f:facet>#{viaje.closingDate}</p:column>
 				<p:column>
-					<f:facet name="header">Plazas disponibles</f:facet>#{viaje.availablePax}</p:column>
+					<f:facet name="header">#{msgs.tablaPlazasDisponibles}</f:facet>#{viaje.availablePax}</p:column>
 				<p:column>
-					<f:facet name="header">Plazas Máximas</f:facet>#{viaje.maxPax}</p:column>
+					<f:facet name="header">#{msgs.tablaPlazasMaximas}</f:facet>#{viaje.maxPax}</p:column>
 				<p:column>
-					<f:facet name="header">Precio aproximado</f:facet>#{viaje.estimatedCost}</p:column>
+					<f:facet name="header">#{msgs.tablaPrecio}</f:facet>#{viaje.estimatedCost}</p:column>
 				<p:column>
-					<f:facet name="header">Estado</f:facet>#{viaje.status}</p:column>
+					<f:facet name="header">#{msgs.tablaEstado}</f:facet>#{viaje.status}</p:column>
 				<p:column>
-					<f:facet name="header">Apuntarse</f:facet>
+					<f:facet name="header">#{msgs.apuntarseMin}</f:facet>
 					<p:commandLink action="#{apuntados.apuntarse(usuarios.usuario)}"
-						type="submit" value="APUNTARSE" immediate="true"
+						type="submit" value="#{msgs.apuntarseMay}" immediate="true"
 						update=":form-principal">
 						<f:setPropertyActionListener target="#{viajes.viaje}"
 							value="#{viaje}" />
@@ -65,15 +73,15 @@
 				value="#{apuntados.listaApuntadosUsuario}" border="1"
 				style="margin: 0 auto;">
 				<p:column>
-					<f:facet name="header">Salida</f:facet>#{apuntado.viaje.departure.city}</p:column>
+					<f:facet name="header">#{msgs.tablaSalida}</f:facet>#{apuntado.viaje.departure.city}</p:column>
 				<p:column>
-					<f:facet name="header">Destino</f:facet>#{apuntado.viaje.destination.city}</p:column>
+					<f:facet name="header">#{msgs.tablaDestino}</f:facet>#{apuntado.viaje.destination.city}</p:column>
 				<p:column>
-					<f:facet name="header">Fecha de salida</f:facet>#{apuntado.viaje.departureDate}</p:column>
+					<f:facet name="header">#{msgs.tablaFechaSalida}</f:facet>#{apuntado.viaje.departureDate}</p:column>
 				<p:column>
-					<f:facet name="header">Estado</f:facet>#{apuntado.relacionViaje}</p:column>
+					<f:facet name="header">#{msgs.tablaEstado}</f:facet>#{apuntado.relacionViaje}</p:column>
 				<p:column>
-					<f:facet name="header">Apuntarse</f:facet>
+					<f:facet name="header">#{msgs.apuntarseMin}</f:facet>
 					<p:commandLink action="#{apuntados.desapuntarse}" type="submit"
 						value="DESAPUNTARSE" immediate="true" update=":form-principal">
 						<f:setPropertyActionListener target="#{apuntados.apuntado}"

@@ -74,12 +74,12 @@
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>modificar</from-outcome>
-			<to-view-id>/modificar.xhtml</to-view-id>
+			<to-view-id>/restricted/modificar.xhtml</to-view-id>
 		</navigation-case>
 		<navigation-case>
 			<from-action>#{apuntados.vistaPromotor}</from-action>
 			<from-outcome>promotor</from-outcome>
-			<to-view-id>/promotor.xhtml</to-view-id>
+			<to-view-id>/restricted/promotor.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>
 	<navigation-rule>
@@ -104,6 +104,29 @@
 		<navigation-case>
 			<from-action>#{usuarios.crearViaje}</from-action>
 			<from-outcome>exito</from-outcome>
+			<to-view-id>/restricted/promotor.xhtml</to-view-id>			
+		</navigation-case>
+		<navigation-case>
+			<from-action>#{usuarios.crearViaje}</from-action>
+			<from-outcome>fracaso</from-outcome>
+			<to-view-id>/restricted/promotor.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+	<navigation-rule>
+		<display-name>modificarViaje.xhtml</display-name>
+		<from-view-id>/restricted/modificarViaje.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>promotor</from-outcome>
+			<to-view-id>/restricted/promotor.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-action>#{usuarios.cambiaViaje}</from-action>
+			<from-outcome>exito</from-outcome>
+			<to-view-id>/restricted/promotor.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-action>#{usuarios.cambiaViaje}</from-action>
+			<from-outcome>fracaso</from-outcome>
 			<to-view-id>/restricted/promotor.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>

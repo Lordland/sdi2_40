@@ -7,47 +7,55 @@
 <f:view locale="#{settings.locale}">
 
 	<h:head>
-		<title>ShareMyTrip - Modificación de usuario</title>
+		<title>#{msgs.tituloModificar}</title>
 	</h:head>
 	<h:body>
 		<h:form>
 			<p:menubar>
 				<p:menuitem value="ShareMyTrip">
 				</p:menuitem>
-				<p:submenu label="Gestión de usuarios">
-					<p:menuitem value="Cerrar sesión" action="cerrar"
+				<p:submenu label="#{msgs.menuGestionUsuarios}">
+					<p:menuitem value="#{msgs.menuCerrarSesion}" action="cerrar"
 						actionListener="#{usuarios.cerrarSesion}" ajax="false">
 					</p:menuitem>
 				</p:submenu>
-				<p:menuitem value="Volver a principal" action="principal">
+				<p:menuitem value="#{msgs.paginaPrincipal}" action="principal">
 				</p:menuitem>
+				<f:facet name="options">
+						<h:commandLink value="#{msgs.enlaceIdiomaES}"
+							actionListener="#{settings.setSpanish}">
+						</h:commandLink>
+						<h:commandLink value="#{msgs.enlaceIdiomaEN}"
+							actionListener="#{settings.setEnglish}">
+						</h:commandLink>
+					</f:facet>
 			</p:menubar>
 		</h:form>
 		<center>
 			<h1>ShareMyTrip</h1>
 			<br />
-			<h2>Modificar datos de usuario</h2>
+			<h2>"#{msgs.modificarDatosUsuario}"</h2>
 		</center>
 		<br />
 		<br />
 		<br />
 		<h:form>
 			<p:panelGrid columns="2" styleClass="formTable">
-  NOMBRE: 
+  #{msgs.nombre} 
   <p:inputText value="#{usuarios.usuario.name}" />
   
-  APELLIDOS: 
+  #{msgs.apellido} 
   <p:inputText value="#{usuarios.usuario.surname}" />
   
-  EMAIL: 
+  #{msgs.email}  
   <p:inputText value="#{usuarios.usuario.email}" />
   
-  CONTRASEÑA: 
+  #{msgs.contrasenia}  
   <p:inputText type="password" value="#{usuarios.usuario.password}" />
-  REPITA LA CONTRASEÑA: 
+  #{msgs.repContrasenia} 
   <p:inputText type="password" value="#{usuarios.comparaPass}" />
 			</p:panelGrid>
-			<p:commandButton value="Salvar" action="#{usuarios.modificarUsuario}" />
+			<p:commandButton value="#{msgs.botonSalvar} " action="#{usuarios.modificarUsuario}" />
 		</h:form>
 	</h:body>
 </f:view>

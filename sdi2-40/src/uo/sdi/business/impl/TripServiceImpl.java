@@ -33,19 +33,19 @@ public class TripServiceImpl implements TripService{
 	
 	public Trip iniciaViaje(){
 		Trip viaje = new Trip();
-		viaje.setDeparture(new AddressPoint("Mi direccion", "Mi ciudad",
-				"Mi país", "Mi provincia", "Mi código postal", new Waypoint(
+		viaje.setDeparture(new AddressPoint("", "",
+				"", "", "", new Waypoint(
 						0.0, 0.0)));
-		viaje.setDestination(new AddressPoint("Mi direccion", "Mi ciudad",
-				"Mi país", "Mi provincia", "Mi código postal", new Waypoint(
+		viaje.setDestination(new AddressPoint("", "",
+				"", "", "", new Waypoint(
 						0.0, 0.0)));
-		viaje.setArrivalDate(new Date());
-		viaje.setClosingDate(new Date());
-		viaje.setDepartureDate(new Date());
-		viaje.setComments("Comentario de prueba");
-		viaje.setAvailablePax(5);
-		viaje.setMaxPax(5);
-		viaje.setEstimatedCost(50.0);
+		viaje.setArrivalDate(null);
+		viaje.setClosingDate(null);
+		viaje.setDepartureDate(null);
+		viaje.setComments("");
+		viaje.setAvailablePax(0);
+		viaje.setMaxPax(0);
+		viaje.setEstimatedCost(0.0);
 		viaje.setStatus(TripStatus.OPEN);
 		return viaje;
 	}

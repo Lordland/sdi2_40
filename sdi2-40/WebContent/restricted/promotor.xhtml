@@ -7,26 +7,34 @@
 <f:view locale="#{settings.locale}">
 
 	<h:head>
-		<title>ShareMyTrip - Página del promotor</title>
+		<title>#{msgs.tituloPromotor}</title>
 	</h:head>
 	<h:body>
 		<h:form id="menu4">
 			<p:menubar id = "menu4-2">
 				<p:menuitem value="ShareMyTrip">
 				</p:menuitem>
-				<p:submenu id="gestion4" label="Gestion de viajes">
-					<p:menuitem id="crearViaje" value="Crear viaje" action="crearViaje"
+				<p:submenu id="gestion4" label="#{msgs.gestionViajes}">
+					<p:menuitem id="crearViaje" value="#{msgs.crearViaje}" action="crearViaje"
 						actionListener="#{viajes.iniciaViaje}">
 					</p:menuitem>
 				</p:submenu>
-				<p:submenu label="Gestion de Usuarios">
-					<p:menuitem id="volver" value="Volver a principal"
+				<p:submenu label="#{msgs.menuGestionUsuarios}">
+					<p:menuitem id="volver" value="#{msgs.paginaPrincipal}"
 						action="principal">
 					</p:menuitem>
-					<p:menuitem id="cerrar2" value="Cerrar sesión" action="cerrar"
+					<p:menuitem id="cerrar2" value="#{msgs.menuCerrarSesion}" action="cerrar"
 						actionListener="#{usuarios.cerrarSesion}" ajax="false">
 					</p:menuitem>
 				</p:submenu>
+				<f:facet name="options">
+						<h:commandLink value="#{msgs.enlaceIdiomaES}"
+							actionListener="#{settings.setSpanish}">
+						</h:commandLink>
+						<h:commandLink value="#{msgs.enlaceIdiomaEN}"
+							actionListener="#{settings.setEnglish}">
+						</h:commandLink>
+					</f:facet>
 			</p:menubar>
 		</h:form>
 		<br></br>
@@ -35,9 +43,9 @@
 		<br></br>
 		<h:form id="form2">
 			<center>
-				<h1>Promotor</h1>
+				<h1>#{msgs.menuPromotor}</h1>
 			</center>
-			Viajes creados por usted: 
+			#{msgs.viajesCreadosPorUsted}
 			<p:dataTable id="promotor" var="viaje" styleClass="formTable"
 				value="#{viajes.viajesPromotor}" border="1" style="margin: 0 auto;"
 				editable="true">
@@ -45,31 +53,31 @@
 				<p:ajax event="rowEditCancel"
 					listener="#{viajes.cancelarActualizar}" />
 				<p:column>
-					<f:facet name="header">Salida</f:facet>#{viaje.departure.city}</p:column>
+					<f:facet name="header">#{msgs.tablaSalida}</f:facet>#{viaje.departure.city}</p:column>
 				<p:column>
-					<f:facet name="header">Destino</f:facet>#{viaje.destination.city}</p:column>
+					<f:facet name="header">#{msgs.tablaDestino}</f:facet>#{viaje.destination.city}</p:column>
 				<p:column>
-					<f:facet name="header">Fecha de llegada</f:facet>#{viaje.arrivalDate}</p:column>
+					<f:facet name="header">#{msgs.tablaFechaLlegada}</f:facet>#{viaje.arrivalDate}</p:column>
 				<p:column>
-					<f:facet name="header">Fecha de salida</f:facet>#{viaje.departureDate}</p:column>
+					<f:facet name="header">#{msgs.tablaFechaSalida}</f:facet>#{viaje.departureDate}</p:column>
 				<p:column>
-					<f:facet name="header">Fecha de cierre</f:facet>#{viaje.closingDate}</p:column>
+					<f:facet name="header">#{msgs.tablaFechaCierre}</f:facet>#{viaje.closingDate}</p:column>
 				<p:column>
-					<f:facet name="header">Plazas disponibles</f:facet>#{viaje.availablePax}</p:column>
+					<f:facet name="header">#{msgs.tablaPlazasDisponibles}</f:facet>#{viaje.availablePax}</p:column>
 				<p:column>
-					<f:facet name="header">Plazas Máximas</f:facet>#{viaje.maxPax}</p:column>
+					<f:facet name="header">#{msgs.tablaPlazasMaximas}</f:facet>#{viaje.maxPax}</p:column>
 				<p:column>
-					<f:facet name="header">Precio aproximado</f:facet>#{viaje.estimatedCost}</p:column>
+					<f:facet name="header">#{msgs.tablaPrecio}</f:facet>#{viaje.estimatedCost}</p:column>
 				<p:column>
-					<f:facet name="header">Modificar</f:facet>
+					<f:facet name="header">#{msgs.modificarMin}</f:facet>
 					<h:commandLink action="modificarViaje" type="submit"
-						value="MODIFICAR" immediate="true">
+						value="#{msgs.modificarMay}" immediate="true">
 						<f:setPropertyActionListener target="#{viajes.viaje}"
 							value="#{viaje}" />
 					</h:commandLink>
 				</p:column>
 				<p:column>
-					<f:facet name="header">Estado</f:facet>
+					<f:facet name="header">#{msgs.estado}</f:facet>
 					<p:cellEditor>
 						<f:facet name="output">
 					#{viaje.status}
@@ -91,27 +99,27 @@
 			<br></br>
 			<br></br>
 	
-	Peticiones para apuntarse a sus viajes:
+	#{msgs.peticionesApuntarseViajes}
 	<br></br>
 
 			<p:dataTable var="apuntado" styleClass="formTable"
 				value="#{apuntados.listaApuntadosPromotor}" border="1"
 				style="margin: 0 auto;">
 				<p:column>
-					<f:facet name="header">Usuario</f:facet>#{apuntado.usuario.login}</p:column>
+					<f:facet name="header">#{msgs.labelOutputUsuario}</f:facet>#{apuntado.usuario.login}</p:column>
 				<p:column>
-					<f:facet name="header">Salida</f:facet>#{apuntado.viaje.departure.city}</p:column>
+					<f:facet name="header">#{msgs.tablaSalida}</f:facet>#{apuntado.viaje.departure.city}</p:column>
 				<p:column>
-					<f:facet name="header">Destino</f:facet>#{apuntado.viaje.destination.city}</p:column>
+					<f:facet name="header">#{msgs.tablaDestino}</f:facet>#{apuntado.viaje.destination.city}</p:column>
 				<p:column>
-					<f:facet name="header">Fecha de salida</f:facet>#{apuntado.viaje.departureDate}</p:column>
+					<f:facet name="header">#{msgs.tablaFechaSalida}</f:facet>#{apuntado.viaje.departureDate}</p:column>
 				<p:column>
-					<f:facet name="header">Estado</f:facet>#{apuntado.relacionViaje}</p:column>
+					<f:facet name="header">#{msgs.tablaEstado}</f:facet>#{apuntado.relacionViaje}</p:column>
 
 				<p:column exportable="false"
 					rendered="#{apuntado.relacionViaje == 'PENDANT' 
 			|| apuntado.relacionViaje == 'EXCLUDED' }">
-					<p:commandLink value="ACEPTAR" action="#{apuntados.aceptar}"
+					<p:commandLink value="#{msgs.aceptar}" action="#{apuntados.aceptar}"
 						immediate="true" update=":form2">
 						<f:setPropertyActionListener value="true"
 							target="#{apuntados.renderIframeColumn}" />
@@ -122,7 +130,7 @@
 				<p:column exportable="false"
 					rendered="#{apuntado.relacionViaje == 'ACCEPTED' 
 			|| apuntado.relacionViaje == 'NO_SEAT'}">
-					<p:commandLink value="RECHAZAR" action="#{apuntados.cancelar}"
+					<p:commandLink value="#{msgs.rechazar}" action="#{apuntados.cancelar}"
 						immediate="true" update=":form2">
 						<f:setPropertyActionListener value="true"
 							target="#{apuntados.renderIframeColumn}" />
